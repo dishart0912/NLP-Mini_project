@@ -15,22 +15,22 @@ Welcome! This folder contains beginner-friendly, structured, and in-depth docume
 
 We have divided the documentation into 6 bite-sized, structured guides so that every team member can understand the concepts, code, and viva questions clearly:
 
-1. [01_project_overview_and_concepts.md](file:///e:/tsec/sem7/lab/nlp/docs/01_project_overview_and_concepts.md)  
+1. [01_project_overview_and_concepts.md](01_project_overview_and_concepts.md)  
    *What is this project about? Why legal NLP? What was already done in Experiments 1–5, and what was added now?*
 
-2. [02_mandatory_preprocessing_explained.md](file:///e:/tsec/sem7/lab/nlp/docs/02_mandatory_preprocessing_explained.md)  
+2. [02_mandatory_preprocessing_explained.md](02_mandatory_preprocessing_explained.md)  
    *The 5 mandatory preprocessing tasks explained step-by-step with examples: Sentences, Tokens, POS Tagging, Lemmatization, and WordNet ontology.*
 
-3. [03_dataset_and_task_formulation.md](file:///e:/tsec/sem7/lab/nlp/docs/03_dataset_and_task_formulation.md)  
+3. [03_dataset_and_task_formulation.md](03_dataset_and_task_formulation.md)  
    *Where did the data come from? Why did we choose Clause Risk Classification instead of Summarization? How was the dataset curated and split?*
 
-4. [04_llm_finetuning_deep_dive.md](file:///e:/tsec/sem7/lab/nlp/docs/04_llm_finetuning_deep_dive.md)  
+4. [04_llm_finetuning_deep_dive.md](04_llm_finetuning_deep_dive.md)  
    *How does fine-tuning actually work? What is BERT-Tiny? What are weights, loss functions, learning rates, epochs, and AdamW?*
 
-5. [05_evaluation_metrics_and_results.md](file:///e:/tsec/sem7/lab/nlp/docs/05_evaluation_metrics_and_results.md)  
+5. [05_evaluation_metrics_and_results.md](05_evaluation_metrics_and_results.md)  
    *How did our model perform? What do Accuracy, Precision, Recall, Macro F1, and the Confusion Matrix mean? Why is our baseline comparison important?*
 
-6. [06_how_to_run_and_viva_qa.md](file:///e:/tsec/sem7/lab/nlp/docs/06_how_to_run_and_viva_qa.md)  
+6. [06_how_to_run_and_viva_qa.md](06_how_to_run_and_viva_qa.md)  
    *How to run the scripts on your computer, plus the top 15 viva questions your professor or external examiner might ask (with exact answers!)*
 
 ---

@@ -83,7 +83,7 @@ In consumer protection AI, **False Negatives are high impact:**
 
 ## 5. Live Predictions on Unseen Test Clauses
 
-When running [`inference.py`](file:///e:/tsec/sem7/lab/nlp/inference.py), the fine-tuned model outputs probability distributions across all 3 classes:
+When running [`inference.py`](../inference.py), the fine-tuned model outputs probability distributions across all 3 classes:
 
 1. *"Amazon reserves the right in its sole discretion to terminate any user account without warning or compensation."*  
    $\rightarrow$ **HIGH RISK** (Confidence: **73.5%**)  

@@ -27,7 +27,7 @@ _NLTK_CHECKED = False
 
 def ensure_nltk_corpora():
     """
-    Ensures required NLTK corpora are downloaded once per session.
+    Ensures required NLTK corpora are downloaded and unzipped once per session.
     Fails gracefully with helpful instructions if network is unavailable.
     """
     global _NLTK_CHECKED
@@ -43,14 +43,24 @@ def ensure_nltk_corpora():
         ('corpora/omw-1.4', 'omw-1.4')
     ]
     
+    import zipfile
+    import os
+
     for resource, pkg in packages:
         try:
             nltk.data.find(resource)
         except (LookupError, AttributeError):
             try:
                 nltk.download(pkg, quiet=True)
+                # On Windows, sometimes NLTK downloads the zip without unzipping it
+                for search_dir in nltk.data.path:
+                    zip_candidate = os.path.join(search_dir, resource + '.zip')
+                    if os.path.exists(zip_candidate):
+                        target_dir = os.path.dirname(zip_candidate)
+                        with zipfile.ZipFile(zip_candidate) as zf:
+                            zf.extractall(target_dir)
             except Exception as e:
-                print(f"[!] Warning: Could not download NLTK package '{pkg}': {e}", file=sys.stderr)
+                print(f"[!] Warning: Could not download or extract NLTK package '{pkg}': {e}", file=sys.stderr)
                 print(f"    Please run 'python -m nltk.downloader {pkg}' manually if missing.", file=sys.stderr)
     
     _NLTK_CHECKED = True

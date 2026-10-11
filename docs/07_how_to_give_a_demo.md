@@ -8,7 +8,7 @@ This guide provides a step-by-step walkthrough for demonstrating the **Automated
 
 | Step | Time | What to Say / Show | Command / Action |
 |---|---|---|---|
-| **1. Hook & Problem** | 30s | Explain why Terms & Conditions are dangerous for digital users. | Show [docs/01_project_overview_and_concepts.md](file:///e:/tsec/sem7/lab/nlp/docs/01_project_overview_and_concepts.md) |
+| **1. Hook & Problem** | 30s | Explain why Terms & Conditions are dangerous for digital users. | Show [01_project_overview_and_concepts.md](01_project_overview_and_concepts.md) |
 | **2. Mandatory Preprocessing** | 45s | Demonstrate tokenization, lemmatization, and WordNet legal semantics. | `python preprocessing_pipeline.py` |
 | **3. Live Model Demonstration** | 90s | Run the interactive demo and let the examiner test any clause! | `python demo.py` |
 | **4. Architecture & Metrics** | 15s | Show the flowchart and test set gains (+19.6% precision, 100% High-Risk recall). | Open `fine_tuning_flowchart.png` |
@@ -86,6 +86,6 @@ python preprocessing_pipeline.py
 ---
 
 ## Step 4: Show the Flowchart & Metrics
-- Open [fine_tuning_flowchart.png](file:///e:/tsec/sem7/lab/nlp/fine_tuning_flowchart.png) on your screen.
+- Open [`fine_tuning_flowchart.png`](../fine_tuning_flowchart.png) on your screen.
 - State the key finding:
-  > *"Our fine-tuned BERT achieved 100% recall on high-risk clauses, ensuring no dangerous legal clause slips past undetected."*
+  > *"Our fine-tuned BERT achieved 100% recall on the 6 high-risk clauses in our held-out test split, along with a +19.6% gain in macro precision over the classical baseline."*

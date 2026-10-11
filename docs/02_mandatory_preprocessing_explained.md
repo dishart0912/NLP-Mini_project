@@ -2,7 +2,7 @@
 
 The instructor's guidelines explicitly require **5 specific preprocessing steps**. Here is what each step does, why it matters for legal text, and how our code implements it.
 
-All of these are runnable in: [`preprocessing_pipeline.py`](file:///e:/tsec/sem7/lab/nlp/preprocessing_pipeline.py).
+All of these are runnable in: [`preprocessing_pipeline.py`](../preprocessing_pipeline.py).
 
 > [!IMPORTANT]
 > **Architectural Distinction: NLTK Preprocessing vs. BERT Input Pipeline**  

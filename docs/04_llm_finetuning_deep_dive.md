@@ -1,6 +1,6 @@
 # 4. LLM Fine-Tuning Deep Dive
 
-This guide explains the fine-tuning process implemented in [`fine_tune_bert.py`](file:///e:/tsec/sem7/lab/nlp/fine_tune_bert.py) in simple, step-by-step terms.
+This guide explains the fine-tuning process implemented in [`fine_tune_bert.py`](../fine_tune_bert.py) in simple, step-by-step terms.
 
 ---
 
@@ -86,7 +86,7 @@ Epoch 12/12 | Train Loss: 0.4742 | Val Loss: 0.6780 | Val Acc: 75.00%
 1. **Loss Reduced by 57.6%:** Train Loss went from `1.1194` down to `0.4742`.
 2. **Validation Accuracy Jumped:** Rose from `41.67%` to `75.00%`.
 3. **Best-Checkpoint Selection:** The script monitors validation loss after every epoch. The checkpoint with the lowest validation loss (Epoch 12, loss: 0.6780) was automatically reloaded before test set evaluation to prevent overfitting.
-4. **Saved Weights:** PyTorch saved the new neural network parameters directly into [`model_output/model.safetensors`](file:///e:/tsec/sem7/lab/nlp/model_output).
+4. **Saved Weights:** PyTorch saved the new neural network parameters directly into [`model_output/model.safetensors`](../model_output).
 
 ---
 

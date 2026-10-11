@@ -10,7 +10,7 @@ The guidelines asked us to:
 
 ### The Honest Engineering Reality:
 1. **Summarization Needs Pairs:** To genuinely fine-tune an abstractive summarization model (like T5 or BART), you need thousands of pairs of `(Long Legal Clause, Gold-Standard Human Summary)`.
-2. **What We Actually Have:** Our existing project files ([alibaba.txt](file:///e:/tsec/sem7/lab/nlp/alibaba.txt), [amazon.txt](file:///e:/tsec/sem7/lab/nlp/amazon.txt), and [tc_clauses.csv](file:///e:/tsec/sem7/lab/nlp/tc_clauses.csv)) contain raw legal clauses and their **risk labels** (`Low`, `Medium`, `High`). They do **not** contain human-written summary labels.
+2. **What We Actually Have:** Our existing project files ([alibaba.txt](../alibaba.txt), [amazon.txt](../amazon.txt), and [tc_clauses.csv](../tc_clauses.csv)) contain raw legal clauses and their **risk labels** (`Low`, `Medium`, `High`). They do **not** contain human-written summary labels.
 3. **The Defensible Choice:** Attempting summarization without human reference summaries would force someone to fabricate summaries or rely on unverified APIs. In contrast, **Legal Clause Risk Classification** has clear, genuine, verifiable ground-truth labels. Therefore, we chose clause risk classification as the most defensible, mathematically sound task!
 
 ---
@@ -27,7 +27,7 @@ If you split 17 rows into 70% train (11 rows) and 15% test (3 rows), a machine l
 
 ### How We Solved It Without Altering the Original:
 1. We kept `tc_clauses.csv` completely untouched.
-2. We wrote [`prepare_expanded_dataset.py`](file:///e:/tsec/sem7/lab/nlp/prepare_expanded_dataset.py) to create [`tc_clauses_expanded.csv`](file:///e:/tsec/sem7/lab/nlp/tc_clauses_expanded.csv).
+2. We wrote [`prepare_expanded_dataset.py`](../prepare_expanded_dataset.py) to create [`tc_clauses_expanded.csv`](../tc_clauses_expanded.csv).
 3. We manually curated and labeled additional valid clauses from our existing `amazon.txt` and `alibaba.txt` source files.
 4. We supplemented with authentic Terms of Service clauses from 9 other major consumer platforms: Google, Apple, Microsoft, Meta, Netflix, Twitter/X, Spotify, Uber, and Zoom.
 *(Note on Provenance: The raw `amazon.txt` and `alibaba.txt` files serve as reference background texts; clauses were verified and structured in Python dictionaries to ensure clean ground-truth annotations without scraping errors).*
