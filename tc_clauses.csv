@@ -1,0 +1,18 @@
+clause_id,company,category,clause_text,risk_level
+AMZ_001,Amazon,Privacy,"Please review our Privacy Notice, which also governs your use of Amazon Services, to understand our practices.",Low
+AMZ_002,Amazon,Electronic Communications,"You consent to receive communications from us electronically, such as e-mails, texts, mobile push notices, or notices and messages on this site.",Low
+AMZ_003,Amazon,Intellectual Property,"All content included in or made available through any Amazon Service is the property of Amazon or its content suppliers and protected by copyright laws.",Medium
+AMZ_004,Amazon,Account Security,"You are responsible for maintaining the confidentiality of your account and password and for restricting access to your account.",Medium
+AMZ_005,Amazon,Termination,"Amazon reserves the right to refuse service, terminate accounts, terminate your rights to use Amazon Services, remove or edit content, or cancel orders in its sole discretion.",High
+AMZ_006,Amazon,User Content Liability,"Amazon takes no responsibility and assumes no liability for any content posted by you or any third party.",High
+AMZ_007,Amazon,Limitation of Liability,"To the full extent permissible by law, Amazon disclaims all warranties, express or implied, including merchantability and fitness for a particular purpose.",High
+AMZ_008,Amazon,Limitation of Liability,"Amazon will not be liable for any damages of any kind arising from the use of any Amazon Service, including direct, indirect, incidental, and consequential damages.",High
+AMZ_009,Amazon,Dispute Resolution,"Each party waives any right to a jury trial and agrees that any dispute resolution proceedings will be conducted only on an individual basis.",High
+ALI_001,Alibaba,Acceptance of Terms,"By accessing the Sites or using the Services, you agree to accept and be bound by the Terms.",Low
+ALI_002,Alibaba,Amendments,"Alibaba.com may amend any Terms at any time by posting the relevant amended and restated Terms on the Sites.",High
+ALI_003,Alibaba,Intellectual Property,"You agree that you will not copy, reproduce, download, re-publish, sell, distribute or resell any Services or any information.",Medium
+ALI_004,Alibaba,Account Security,"Each User is solely responsible for maintaining the confidentiality and security of your Member ID and password.",Medium
+ALI_005,Alibaba,Termination,"Alibaba.com reserves the right in our sole discretion to immediately suspend or terminate your account and any related accounts without notice.",High
+ALI_006,Alibaba,Limitation of Liability,"THE SERVICES PROVIDED BY ALIBABA.COM ON OR THROUGH THE SITES ARE PROVIDED AS IS, AS AVAILABLE AND WITH ALL FAULTS.",High
+ALI_007,Alibaba,Limitation of Liability,"ALIBABA.COM SHALL NOT BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, PUNITIVE, INCIDENTAL OR CONSEQUENTIAL DAMAGES INCLUDING LOSS OF PROFITS.",High
+ALI_008,Alibaba,Dispute Resolution,"Any dispute or claim shall be referred to and finally resolved by arbitration administered by the Hong Kong International Arbitration Centre.",Medium

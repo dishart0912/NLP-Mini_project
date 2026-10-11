@@ -1,0 +1,52 @@
+[
+  {
+    "clause": "Amazon reserves the right in its sole discretion to terminate any user account without warning or compensation.",
+    "predicted_risk": "High",
+    "confidence": 73.46,
+    "probabilities": {
+      "Low": 9.67,
+      "Medium": 16.87,
+      "High": 73.46
+    }
+  },
+  {
+    "clause": "Please check our Privacy Notice to learn more about how cookies and personal identifiers are utilized.",
+    "predicted_risk": "Low",
+    "confidence": 60.64,
+    "probabilities": {
+      "Low": 60.64,
+      "Medium": 28.3,
+      "High": 11.05
+    }
+  },
+  {
+    "clause": "Users must maintain the confidentiality of their secret credentials and update passwords every 90 days.",
+    "predicted_risk": "Medium",
+    "confidence": 47.5,
+    "probabilities": {
+      "Low": 42.84,
+      "Medium": 47.5,
+      "High": 9.66
+    }
+  },
+  {
+    "clause": "UNDER NO CIRCUMSTANCES SHALL THE VENDOR BE LIABLE FOR ANY CONSEQUENTIAL OR PUNITIVE DAMAGES ARISING FROM SERVICE INTERRUPTION.",
+    "predicted_risk": "High",
+    "confidence": 80.36,
+    "probabilities": {
+      "Low": 8.72,
+      "Medium": 10.92,
+      "High": 80.36
+    }
+  },
+  {
+    "clause": "Any dispute arising under this Agreement shall be resolved exclusively through confidential binding arbitration.",
+    "predicted_risk": "High",
+    "confidence": 66.03,
+    "probabilities": {
+      "Low": 11.21,
+      "Medium": 22.76,
+      "High": 66.03
+    }
+  }
+]
