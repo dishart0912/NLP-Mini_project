@@ -97,11 +97,11 @@ Evaluated on an isolated 15% stratified held-out test split (13 unseen contractu
 
 | Model Architecture | Accuracy | Macro Precision | Macro Recall | Macro F1 | High-Risk Recall |
 |---|:---:|:---:|:---:|:---:|:---:|
-| **Baseline (TF-IDF + Logistic Regression)** | 61.54% | 0.6111 | 0.6111 | 0.6000 | 83.3% |
-| **Fine-Tuned BERT-Tiny (4.4M Params)** | **61.54%** | **0.8485** *(+23.7%)* | 0.5278 | 0.5353 | **100.0%** |
+| **Baseline (TF-IDF + Logistic Regression)** | 61.54% | 0.6528 | 0.5833 | 0.6000 | 83.3% |
+| **Fine-Tuned BERT-Tiny (4.4M Params)** | **61.54%** | **0.8485** *(+19.6%)* | 0.5278 | 0.5353 | **100.0%** |
 
-- **Zero False Negatives on Hazardous Terms:** The fine-tuned transformer attained **100% Recall on High-Risk clauses**, ensuring dangerous liabilities, arbitration traps, or unilateral termination terms are always flagged.
-- **Superior Precision:** Achieved **100% Precision on Low and Medium classes** with a **+23.7% precision improvement** over the baseline.
+- **Zero False Negatives on Hazardous Terms:** The fine-tuned transformer attained **100% Recall on High-Risk clauses** (6/6 detected), ensuring dangerous liabilities, arbitration traps, or unilateral termination terms in the test set are flagged.
+- **Superior Precision:** Achieved **100% Precision on Low and Medium classes** with a **+19.6% precision improvement** (0.8485 vs 0.6528) over the baseline.
 
 ---
 

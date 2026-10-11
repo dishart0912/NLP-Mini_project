@@ -24,9 +24,9 @@ def draw_flowchart():
         (5, 11.4, "Stage 1: Mandatory Preprocessing\n• Sentence Segmentation (sent_tokenize)\n• Tokenization (word_tokenize)\n• POS Tagging & POS-informed Lemmatization\n• WordNet Semantic Analysis (Hypernyms / Hyponyms)", process_style),
         (5, 9.7, "Stage 2: Dataset Preparation & Stratification\n• 82 Domain Clauses across 11 Companies\n• Stratified Split: Train (70%), Val (15%), Test (15%)\n• Balanced Class Weight Calculation", process_style),
         (5, 8.0, "Stage 3: Tokenization & PyTorch DataLoader\n• BertTokenizer (prajjwal1/bert-tiny)\n• Max Length = 128, PyTorch Tensors, Batch Size = 4", process_style),
-        (5, 6.2, "Stage 4: Transformer Architecture & Fine-Tuning\n• Pretrained BERT-Tiny (~4.4M Parameters)\n• AdamW Optimizer (LR = 1e-4, Weight Decay = 0.01)\n• Weighted Cross-Entropy Loss (12 Epochs)\n• Parameter Updates on Encoder & Classification Head", model_style),
-        (5, 4.3, "Stage 5: Evaluation & Baseline Benchmarking\n• Baseline: TF-IDF + Logistic Regression (Macro F1: 0.60)\n• Fine-Tuned BERT Test Acc: 61.54% | Macro Prec: 0.8485\n• Confusion Matrix & Per-Class Precision/Recall", eval_style),
-        (5, 2.5, "Stage 6: Artifact Serialization & Model Checkpoint\n• PyTorch weights saved to /model_output\n• BertTokenizer configs & vocab saved\n• evaluation_metrics.json & sample_predictions.json", output_style),
+        (5, 6.2, "Stage 4: Transformer Architecture & Fine-Tuning\n• Pretrained BERT-Tiny (~4.4M Parameters)\n• AdamW Optimizer (LR = 1e-4, Weight Decay = 0.01)\n• Weighted Cross-Entropy Loss (12 Epochs)\n• Best-Validation-Checkpoint Selection (Min Val Loss)", model_style),
+        (5, 4.3, "Stage 5: Evaluation & Baseline Benchmarking\n• Baseline: TF-IDF + Logistic Regression (Prec: 0.6528, F1: 0.60)\n• Fine-Tuned BERT: Acc: 61.54% | Prec: 0.8485 (+19.6%)\n• 100% High-Risk Recall (6/6 Test Clauses Detected)", eval_style),
+        (5, 2.5, "Stage 6: Artifact Serialization & Best Checkpoint\n• PyTorch weights saved to /model_output\n• BertTokenizer configs & vocab saved\n• evaluation_metrics.json & sample_predictions.json", output_style),
         (5, 0.9, "Stage 7: Production Inference Pipeline\n• Unseen Clause Ingestion\n• Softmax Probability Distribution\n• Automated Clause Risk Flagging (Low / Medium / High)", output_style)
     ]
 

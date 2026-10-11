@@ -100,8 +100,8 @@ All 5 instructor-mandated preprocessing tasks are explicitly operational in our 
 | Metric | Classical Baseline (TF-IDF + LogReg) | Fine-Tuned BERT-Tiny |
 |---|---|---|
 | **Test Accuracy** | 61.54% | **61.54%** |
-| **Macro Precision** | 0.6111 | **0.8485** *(+23.7% gain)* |
-| **Macro Recall** | 0.6111 | 0.5278 |
+| **Macro Precision** | 0.6528 | **0.8485** *(+19.6% gain)* |
+| **Macro Recall** | 0.5833 | 0.5278 |
 | **Macro F1-Score** | 0.6000 | 0.5353 |
 
 - **High-Risk Class Performance:** High recall on High-Risk clauses ($1.00$) ensures no hazardous clause goes unflagged.

@@ -11,7 +11,7 @@ This guide provides a step-by-step walkthrough for demonstrating the **Automated
 | **1. Hook & Problem** | 30s | Explain why Terms & Conditions are dangerous for digital users. | Show [docs/01_project_overview_and_concepts.md](file:///e:/tsec/sem7/lab/nlp/docs/01_project_overview_and_concepts.md) |
 | **2. Mandatory Preprocessing** | 45s | Demonstrate tokenization, lemmatization, and WordNet legal semantics. | `python preprocessing_pipeline.py` |
 | **3. Live Model Demonstration** | 90s | Run the interactive demo and let the examiner test any clause! | `python demo.py` |
-| **4. Architecture & Metrics** | 15s | Show the flowchart and test set gains (+23.7% precision, 100% recall). | Open `fine_tuning_flowchart.png` |
+| **4. Architecture & Metrics** | 15s | Show the flowchart and test set gains (+19.6% precision, 100% High-Risk recall). | Open `fine_tuning_flowchart.png` |
 
 ---
 

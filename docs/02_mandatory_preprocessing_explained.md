@@ -4,6 +4,10 @@ The instructor's guidelines explicitly require **5 specific preprocessing steps*
 
 All of these are runnable in: [`preprocessing_pipeline.py`](file:///e:/tsec/sem7/lab/nlp/preprocessing_pipeline.py).
 
+> [!IMPORTANT]
+> **Architectural Distinction: NLTK Preprocessing vs. BERT Input Pipeline**  
+> In this project, the 5 NLTK preprocessing tasks form an independent linguistic demonstration module. The BERT classification model does **NOT** ingest NLTK lemmatized tokens; instead, BERT uses its own native subword WordPiece tokenizer (`BertTokenizer`) on raw clause strings. This preserves word morphology, subtle syntactic nuances, and punctuation that general lemmatizers might strip away.
+
 ---
 
 ## 1. Sentence Boundary Identification

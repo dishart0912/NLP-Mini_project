@@ -1,0 +1,13 @@
+# Core NLP and Machine Learning Dependencies
+# Tested on Python 3.14.3 / 3.13 / 3.11 (Windows x86_64)
+
+torch>=2.1.0
+transformers>=4.40.0
+scikit-learn>=1.4.0
+pandas>=2.0.0
+numpy>=1.24.0
+nltk>=3.8.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+pymupdf>=1.23.0
+pypdf>=3.17.0

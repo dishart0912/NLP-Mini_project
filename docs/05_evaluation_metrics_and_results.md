@@ -20,9 +20,9 @@ In scientific NLP, you cannot just show a neural network score in isolation. You
 | Metric | Classical Baseline (TF-IDF + LogReg) | Fine-Tuned BERT-Tiny | Difference / Gain |
 |---|:---:|:---:|:---:|
 | **Overall Accuracy** | 61.54% | **61.54%** | Equal |
-| **Macro Precision** | 0.6111 | **0.8485** | **+23.7% absolute improvement!** |
-| **Macro Recall** | 0.6111 | 0.5278 | - |
-| **Macro F1-Score** | 0.6000 | 0.5353 | - |
+| **Macro Precision** | 0.6528 | **0.8485** | **+19.6% absolute gain (0.8485 vs 0.6528)** |
+| **Macro Recall** | 0.5833 | 0.5278 | -5.5% |
+| **Macro F1-Score** | 0.6000 | 0.5353 | -6.5% |
 
 ---
 
@@ -30,13 +30,13 @@ In scientific NLP, you cannot just show a neural network score in isolation. You
 
 ### 1. Accuracy
 - **Formula:** $\frac{\text{Correct Predictions}}{\text{Total Predictions}}$
-- Both models achieved $8 / 13 = 61.54\%$.
+- Both models achieved $8 / 13 = 61.54\%$. Note that with only 13 test samples, each sample represents approximately 7.7% of total accuracy.
 
 ### 2. Precision (Quality of Predictions)
 - **Formula:** $\frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}$
 - *"When the model claims a clause is Low Risk, is it actually Low Risk?"*
 - **Our Fine-Tuned Model achieved 1.00 (100%) Precision on Low and Medium classes!** Whenever it predicts Low or Medium, it makes zero mistakes.
-- **Macro Precision jumped from 0.6111 to 0.8485!** This proves the BERT model has significantly better contextual discrimination than naive keyword counting (TF-IDF).
+- **Macro Precision rose from 0.6528 to 0.8485 (+19.6% gain).** This indicates superior semantic selectivity on non-hazardous clauses compared to n-gram counts.
 
 ### 3. Recall (Completeness of Predictions)
 - **Formula:** $\frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}$
@@ -44,7 +44,7 @@ In scientific NLP, you cannot just show a neural network score in isolation. You
 - **Our Fine-Tuned Model achieved 1.00 (100%) Recall on the High-Risk class!**
   - Actual High-Risk clauses in test set = 6
   - Detected High-Risk clauses = 6
-  - **Zero High-Risk clauses were missed!**
+  - Zero High-Risk test clauses were missed. (Note: While promising for consumer protection, testing on larger unseen legal corpora is required to confirm full real-world coverage).
 
 ### 4. Macro F1-Score
 - The harmonic mean of Precision and Recall calculated across all 3 classes equally.

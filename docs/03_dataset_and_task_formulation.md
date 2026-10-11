@@ -28,8 +28,9 @@ If you split 17 rows into 70% train (11 rows) and 15% test (3 rows), a machine l
 ### How We Solved It Without Altering the Original:
 1. We kept `tc_clauses.csv` completely untouched.
 2. We wrote [`prepare_expanded_dataset.py`](file:///e:/tsec/sem7/lab/nlp/prepare_expanded_dataset.py) to create [`tc_clauses_expanded.csv`](file:///e:/tsec/sem7/lab/nlp/tc_clauses_expanded.csv).
-3. We extracted additional valid clauses from our existing `amazon.txt` and `alibaba.txt` files.
+3. We manually curated and labeled additional valid clauses from our existing `amazon.txt` and `alibaba.txt` source files.
 4. We supplemented with authentic Terms of Service clauses from 9 other major consumer platforms: Google, Apple, Microsoft, Meta, Netflix, Twitter/X, Spotify, Uber, and Zoom.
+*(Note on Provenance: The raw `amazon.txt` and `alibaba.txt` files serve as reference background texts; clauses were verified and structured in Python dictionaries to ensure clean ground-truth annotations without scraping errors).*
 
 ### Final Dataset Statistics:
 - **Total Clauses:** 82

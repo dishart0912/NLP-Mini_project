@@ -85,15 +85,16 @@ Epoch 12/12 | Train Loss: 0.4742 | Val Loss: 0.6780 | Val Acc: 75.00%
 ### What proves that training really happened?
 1. **Loss Reduced by 57.6%:** Train Loss went from `1.1194` down to `0.4742`.
 2. **Validation Accuracy Jumped:** Rose from `41.67%` to `75.00%`.
-3. **Saved Weights:** PyTorch saved the new neural network parameters directly into [`model_output/model.safetensors`](file:///e:/tsec/sem7/lab/nlp/model_output).
+3. **Best-Checkpoint Selection:** The script monitors validation loss after every epoch. The checkpoint with the lowest validation loss (Epoch 12, loss: 0.6780) was automatically reloaded before test set evaluation to prevent overfitting.
+4. **Saved Weights:** PyTorch saved the new neural network parameters directly into [`model_output/model.safetensors`](file:///e:/tsec/sem7/lab/nlp/model_output).
 
 ---
 
 ## 6. How the Model Files Are Saved
 
 When training completes, the script creates the `model_output/` folder containing:
-- `model.safetensors`: The trained neural network weights.
+- `model.safetensors`: The trained best-checkpoint neural network weights.
 - `config.json`: The model architecture settings and label mappings (`0: Low, 1: Medium, 2: High`).
-- `vocab.txt`: The tokenizer vocabulary.
-- `evaluation_metrics.json`: All evaluation numbers and confusion matrix in JSON format.
+- `tokenizer.json` / `tokenizer_config.json`: The tokenizer vocabulary and rules.
+- `evaluation_metrics.json`: All evaluation numbers, confusion matrix, and training metadata in JSON format.
 - `sample_predictions.json`: Unseen clause predictions with confidence scores.

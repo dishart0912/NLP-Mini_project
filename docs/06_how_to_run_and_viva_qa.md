@@ -119,7 +119,7 @@ python generate_flowchart.py
 
 ### Q12: What baseline model did you use, and how did BERT compare?
 **Answer:** We trained a classical **TF-IDF + Logistic Regression** baseline on the exact same training split.
-While both models achieved 61.54% overall accuracy on the held-out test split, **Fine-Tuned BERT achieved a Macro Precision of 0.8485 compared to the baseline's 0.6111 (an absolute gain of +23.7%)**, and achieved **1.00 (100%) precision** on Low and Medium risk classes.
+While both models achieved 61.54% overall accuracy on the held-out test split, **Fine-Tuned BERT achieved a Macro Precision of 0.8485 compared to the baseline's 0.6528 (an absolute gain of +19.6%)**, and achieved **1.00 (100%) precision** on Low and Medium risk classes.
 
 ---
 

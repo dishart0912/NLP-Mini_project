@@ -477,11 +477,49 @@ additional_clauses = [
 ]
 
 add_df = pd.DataFrame(additional_clauses)
+
+# Validate schemas and constraints
+required_columns = ['clause_id', 'company', 'category', 'clause_text', 'risk_level']
+for col in required_columns:
+    if col not in original_df.columns:
+        raise ValueError(f"Missing required column in seed dataset: {col}")
+    if col not in add_df.columns:
+        raise ValueError(f"Missing required column in additional clauses: {col}")
+
 expanded_df = pd.concat([original_df, add_df], ignore_index=True)
+
+# Quality Checks
+# 1. Null check
+if expanded_df.isnull().any().any():
+    raise ValueError(f"Dataset contains null values: {expanded_df.isnull().sum().to_dict()}")
+
+# 2. Duplicate clause_id check
+if expanded_df['clause_id'].duplicated().any():
+    dupes = expanded_df[expanded_df['clause_id'].duplicated()]['clause_id'].tolist()
+    raise ValueError(f"Duplicate clause IDs detected: {dupes}")
+
+# 3. Allowed risk labels check
+allowed_labels = {"Low", "Medium", "High"}
+unique_labels = set(expanded_df['risk_level'].unique())
+if not unique_labels.issubset(allowed_labels):
+    raise ValueError(f"Unexpected risk labels: {unique_labels - allowed_labels}")
+
+# 4. Empty or whitespace text check
+empty_mask = expanded_df['clause_text'].str.strip() == ""
+if empty_mask.any():
+    raise ValueError("Empty or whitespace-only clauses detected!")
+
+# 5. Duplicate clause_text check
+if expanded_df['clause_text'].duplicated().any():
+    dupes_text = expanded_df[expanded_df['clause_text'].duplicated(keep=False)]
+    print(f"Warning: Exact duplicate clause texts detected:\n{dupes_text}")
+
 expanded_df.to_csv('tc_clauses_expanded.csv', index=False)
 
-print(f"Created tc_clauses_expanded.csv with {len(expanded_df)} rows.")
+actual_count = len(expanded_df)
+print(f"Successfully generated and validated 'tc_clauses_expanded.csv' with {actual_count} total rows.")
 print("\nRisk Level Distribution:")
 print(expanded_df['risk_level'].value_counts())
 print("\nCompany Distribution:")
 print(expanded_df['company'].value_counts())
+

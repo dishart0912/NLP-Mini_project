@@ -98,11 +98,14 @@ def display_result(clause_text, label, conf, probs):
     print("-" * 75)
     print(f"PREDICTED RISK LEVEL : {label.upper()}")
     print(f"ASSESSMENT           : {icons[label]}")
-    print(f"CONFIDENCE           : {conf * 100:.2f}%\n")
+    print(f"CONFIDENCE           : {conf * 100:.2f}% (Softmax Model Output)\n")
     print("PROBABILITY BREAKDOWN:")
     print(f"  [LOW RISK]    : {probs[0]*100:5.1f}%  |{render_bar(probs[0]*100)}|")
     print(f"  [MEDIUM RISK] : {probs[1]*100:5.1f}%  |{render_bar(probs[1]*100)}|")
     print(f"  [HIGH RISK]   : {probs[2]*100:5.1f}%  |{render_bar(probs[2]*100)}|")
+    print("-" * 75)
+    print("NOTE: Confidence scores represent mathematical model distributions across classes,")
+    print("not formal legal guarantees. High-risk predictions highlight clauses for user review.")
     print("-" * 75)
 
 def run_interactive_demo():
