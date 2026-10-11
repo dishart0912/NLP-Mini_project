@@ -33,6 +33,12 @@ We have divided the documentation into 6 bite-sized, structured guides so that e
 6. [06_how_to_run_and_viva_qa.md](06_how_to_run_and_viva_qa.md)  
    *How to run the scripts on your computer, plus the top 15 viva questions your professor or external examiner might ask (with exact answers!)*
 
+7. [07_how_to_give_a_demo.md](07_how_to_give_a_demo.md)  
+   *Step-by-step physical demonstration guide with minute-by-minute speaking scripts for all group members.*
+
+8. [08_summarization_vs_classification_and_output_guide.md](08_summarization_vs_classification_and_output_guide.md)  
+   *Why our model does Clause Risk Classification instead of text generation/summarization, and a complete breakdown of how to read all script outputs.*
+
 ---
 
 ## Quick Reference Summary
