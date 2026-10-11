@@ -124,19 +124,20 @@ While both models achieved 61.54% overall accuracy on the held-out test split, *
 ---
 
 ### Q13: What was the recall on High-Risk clauses, and why is it important?
-**Answer:** The fine-tuned BERT model achieved **1.00 (100%) Recall on High-Risk clauses** (catching all 6 out of 6 in the test set). In consumer legal AI, missing a hazardous clause (a False Negative) could cause severe harm to the user. Achieving 100% High-Risk recall ensures no dangerous clause goes unflagged.
+**Answer:** The fine-tuned BERT model achieved **1.00 (100%) Recall on High-Risk clauses** (correctly detecting all 6 High-labeled clauses in the 13-example test set). In consumer legal AI, false negatives carry serious consequences. However, because our test set comprises 13 samples, this result indicates strong model sensitivity rather than guaranteed coverage across all real-world agreements.
 
 ---
 
 ### Q14: What datasets did you use?
 **Answer:**
-- Real-world Terms of Service from **Amazon** (`amazon.txt`) and **Alibaba** (`alibaba.txt`).
+- Reference Terms of Service texts from **Amazon** (`amazon.txt`) and **Alibaba** (`alibaba.txt`).
 - The seed dataset `tc_clauses.csv` (17 rows).
-- The expanded dataset `tc_clauses_expanded.csv` (82 clauses across 11 platforms including Google, Apple, Microsoft, Meta, Netflix, Twitter/X, Spotify, Uber, and Zoom).
+- The expanded dataset `tc_clauses_expanded.csv` (82 clauses across 11 platforms, compiled via student curation without automated web scraping).
 
 ---
 
 ### Q15: What are the limitations and future scope of this project?
 **Answer:**
-- **Limitations:** The dataset size is modest (82 clauses) due to manual legal annotation requirements, and CPU execution limits training large multi-billion parameter models.
-- **Future Scope:** Scaling up the corpus to 10,000+ clauses using the LexGLUE / ToS;DR benchmarks on GPU hardware, implementing a browser extension for live contract checking, and combining Retrieval-Augmented Generation (RAG) for interactive contract question-answering.
+- **Task Scope vs Title:** While registered under *"Automated Terms & Conditions Summarizer and Clause Risk Analyzer"*, the core model is a 3-class clause risk classifier acting as an extractive risk triage tool. Full abstractive document summarization is identified as future work.
+- **Limitations:** The dataset size is modest (82 clauses) and held-out test split is 13 clauses. Stratified splitting was clause-level rather than by company, so cross-company generalization requires future multi-company evaluation.
+- **Future Scope:** Scaling up the corpus using LexGLUE / ToS;DR on GPU hardware, implementing full abstractive summarization using encoder-decoder or instruction-tuned models, and building an interactive browser extension for consumer agreement auditing.

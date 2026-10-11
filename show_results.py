@@ -101,10 +101,11 @@ def show_finetuning_evidence():
     low_prec = (cm[0][0] / max(1, sum(cm[:, 0]))) * 100
     med_prec = (cm[1][1] / max(1, sum(cm[:, 1]))) * 100
 
-    print(f"\n  CRITICAL SAFETY METRIC:")
-    print(f"  [+] High-Risk Recall    : {high_recall:.1f}% (6 / 6 Hazardous Clauses Caught - ZERO False Negatives)")
+    print(f"\n  KEY SENSITIVITY METRIC:")
+    print(f"  [+] High-Risk Recall    : {high_recall:.1f}% (6 / 6 High-Risk Clauses Caught on 13-Sample Test Set)")
     print(f"  [+] Low-Risk Precision  : {low_prec:.1f}% (100% Correct when predicting safe terms)")
     print(f"  [+] Med-Risk Precision  : {med_prec:.1f}% (100% Correct when predicting operational terms)")
+    print("  Note: Small test set (13 samples) demonstrates sensitivity, but does not guarantee real-world coverage.")
     print("=" * 78 + "\n")
 
 if __name__ == "__main__":

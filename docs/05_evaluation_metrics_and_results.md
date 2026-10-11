@@ -73,11 +73,11 @@ ACTUAL  Low  [ 1     0     2 ]
 3. **Row 3 (Actual High = 6 clauses):**
    - **All 6 were correctly predicted as High! (0 misses).**
 
-### Why is this behavior ideal for Consumer Protection?
-In consumer protection AI, **False Negatives are dangerous!**
-- If an AI tells a user *"This clause is safe (Low)"* when it was actually a unilateral account termination clause (High), the user suffers legal harm!
-- But if the AI errs on the side of caution and flags a borderline clause as High Risk, the user simply inspects it carefully.
-- Our fine-tuned BERT model achieved **0 False Negatives on High-Risk terms**, fulfilling the primary safety objective of the project.
+### Why is this behavior relevant for Consumer Protection?
+In consumer protection AI, **False Negatives are high impact:**
+- If an AI tells a user *"This clause is safe (Low)"* when it was actually a unilateral account termination clause (High), the user may overlook significant risk.
+- Erring conservatively by flagging borderline clauses as High Risk prompts the user to inspect them more carefully.
+- In this 13-example test set, the fine-tuned BERT model correctly identified all 6 High-labeled clauses. However, given the small test split, this demonstrates sensitivity on our academic benchmark rather than a guarantee across diverse real-world legal contracts.
 
 ---
 

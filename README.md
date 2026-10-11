@@ -1,4 +1,5 @@
-# Automated Terms & Conditions Summarizer and Clause Risk Analyzer
+# NLP-Based Terms & Conditions Clause Risk Analyzer Using BERT-Tiny
+*(Registered Mini-Project Topic: Automated Terms & Conditions Summarizer and Clause Risk Analyzer)*
 
 **BE Computer Engineering — Semester VII (Academic Year 2026)**  
 **Course:** Natural Language Processing Lab  
@@ -15,7 +16,9 @@
 ## 📌 Project Overview
 Digital consumers routinely accept lengthy, legally complex Terms and Conditions (T&C) agreements without reading them, unknowingly waiving trial rights, permitting unilateral account termination, and accepting broad liability disclaimers. 
 
-This project provides an end-to-end NLP system that parses legal agreements, executes classical and advanced preprocessing pipelines, and performs **genuine fine-tuning of a pretrained Transformer (`BERT`)** to categorize contractual clauses into **Low**, **Medium**, and **High** risk levels with confidence scoring.
+This project provides an end-to-end NLP system that parses legal agreements, executes classical and advanced preprocessing pipelines, and performs **genuine fine-tuning of a pretrained Transformer (`BERT-Tiny`)** to categorize contractual clauses into **Low**, **Medium**, and **High** risk levels with confidence scoring.
+
+> **Note on Project Scope:** The primary implemented model is a 3-class clause risk classifier that serves as an extractive risk triage mechanism for legal terms. Natural language document summarization (generating synthetic paragraph summaries of complete agreements) is proposed as future work.
 
 ---
 
@@ -100,7 +103,7 @@ Evaluated on an isolated 15% stratified held-out test split (13 unseen contractu
 | **Baseline (TF-IDF + Logistic Regression)** | 61.54% | 0.6528 | 0.5833 | 0.6000 | 83.3% |
 | **Fine-Tuned BERT-Tiny (4.4M Params)** | **61.54%** | **0.8485** *(+19.6%)* | 0.5278 | 0.5353 | **100.0%** |
 
-- **Zero False Negatives on Hazardous Terms:** The fine-tuned transformer attained **100% Recall on High-Risk clauses** (6/6 detected), ensuring dangerous liabilities, arbitration traps, or unilateral termination terms in the test set are flagged.
+- **High-Risk Class Recall on Test Split:** The fine-tuned transformer attained **100% Recall on High-Risk clauses** (all 6 High-labeled clauses in the 13-example test set were correctly detected). Because the dataset and test split are small, this does not establish guaranteed real-world detection of all hazardous clauses, but demonstrates high sensitivity on the held-out evaluation set.
 - **Superior Precision:** Achieved **100% Precision on Low and Medium classes** with a **+19.6% precision improvement** (0.8485 vs 0.6528) over the baseline.
 
 ---

@@ -1,6 +1,7 @@
 # Mini-Project Final Technical Report
 
-## Automated Terms & Conditions Summarizer and Clause Risk Analyzer
+## NLP-Based Terms & Conditions Clause Risk Analyzer Using BERT-Tiny
+*(Registered Mini-Project Topic: Automated Terms & Conditions Summarizer and Clause Risk Analyzer)*
 
 **Academic Term:** BE Computer Engineering, Semester VII (Academic Year 2026)  
 **Course:** Natural Language Processing Lab  
@@ -20,7 +21,7 @@
 
 Digital consumers routinely accept lengthy, legally complex Terms and Conditions (T&C) agreements without reading them, unknowingly surrendering fundamental consumer protections, waiving trial rights, and permitting unilateral account termination. This mini-project presents an end-to-end Natural Language Processing system that parses, preprocesses, structures, and classifies contractual agreements into actionable risk categories.
 
-Building upon our documented foundational work in Experiments 1 through 5 and our Hidden Markov Model POS-tagging implementation, we complete the project by executing **genuine fine-tuning of a pretrained Transformer model (`BERT`)** on a domain-specific legal dataset. We establish a classical machine learning baseline, implement class-balanced optimization with the AdamW optimizer, evaluate the model on an isolated held-out test split using multi-class metrics (Accuracy, Precision, Recall, Macro F1, Confusion Matrix), serialize the fine-tuned model weights, and demonstrate robust inference on unseen contractual clauses.
+Building upon our documented foundational work in Experiments 1 through 5 and our Hidden Markov Model POS-tagging implementation, we complete the project by executing **genuine fine-tuning of a pretrained Transformer model (`BERT-Tiny`)** on a domain-specific legal dataset. We establish a classical machine learning baseline, implement class-balanced optimization with the AdamW optimizer, evaluate the model on an isolated held-out test split using multi-class metrics (Accuracy, Precision, Recall, Macro F1, Confusion Matrix), serialize the fine-tuned model weights, and demonstrate robust inference on unseen contractual clauses.
 
 ---
 
@@ -61,11 +62,11 @@ The project utilizes real-world contractual agreements from major consumer tech 
 2. **Alibaba Free Membership Agreement** (`alibaba.txt`): Raw source text covering cross-border trade terms, unilateral amendment rights, and Hong Kong arbitration mandates.
 3. **Seed Clause Benchmark** (`tc_clauses.csv`): Initial seed dataset of 17 clauses categorized into risk levels (preserved completely untouched).
 4. **Expanded Multi-Platform Benchmark** (`tc_clauses_expanded.csv`): A curated benchmark of **82 contractual clauses** compiled across 11 platforms (Amazon, Alibaba, Google, Apple, Microsoft, Meta, Netflix, Twitter/X, Spotify, Uber, and Zoom) to provide robust training and held-out evaluation splits.
-   * *Provenance Note:* The additional clauses were manually selected and labeled based on legal risk patterns rather than dynamically parsed from raw `.txt` files at runtime, ensuring verified ground-truth annotations without web scraping artifacts.
+   * *Provenance Note:* The additional clauses were manually selected and labeled by students based on recognizable legal risk patterns rather than dynamically parsed from raw `.txt` files at runtime. They serve as an academic benchmark without claiming formal legal expert certification.
 
 ### 2.2 Task Formulation & Functional Clarification
-* **Project Title Alignment:** While the project title includes *"Summarizer and Clause Risk Analyzer"*, the core fine-tuned deep learning implementation operates specifically as a **3-Class Legal Clause Risk Classifier** (`Low`, `Medium`, `High`). In legal tech workflows, clause-level risk classification functions as an *extractive filtering and risk summarization mechanism*, highlighting high-risk liability clauses for consumer review rather than generating free-form abstractive text.
-* **Technical Justification:** Authentic contracts lack gold-standard human abstractive summaries. Formulating the fine-tuning task as sequence classification provides ground-truth supervised targets that rigorously evaluate whether self-attention layers can detect high-risk legal clauses.
+* **Project Title Alignment:** While registered as *"Automated Terms & Conditions Summarizer and Clause Risk Analyzer"*, the core implemented deep learning system is a **3-Class Legal Clause Risk Classifier** (`Low`, `Medium`, `High`) using BERT-Tiny. In legal technology, clause-level risk classification functions as an *extractive filtering and risk triage mechanism*—highlighting critical liability clauses for human review. Full abstractive or extractive document summarization (generating synthesized natural language summaries of whole agreements) is identified as future work.
+* **Technical Justification:** Authentic consumer contracts lack gold-standard human abstractive summaries. Formulating the fine-tuning task as sequence classification provides ground-truth supervised targets that rigorously evaluate whether self-attention layers can detect high-risk legal clauses.
 
 ---
 
@@ -170,7 +171,7 @@ $$\begin{pmatrix} 1 & 0 & 2 \\ 0 & 1 & 3 \\ 0 & 0 & 6 \end{pmatrix}$$
 *(Rows = Ground Truth [Low, Medium, High]; Columns = Predicted [Low, Medium, High])*
 
 ### 6.4 Analytical Insights
-1. **Critical Safety Guarantee (100% High-Risk Recall on Test Set):** The fine-tuned transformer attained **1.00 recall on High-Risk clauses** (6 out of 6 correctly detected in the held-out split). In consumer protection AI, false negatives on high-risk clauses (e.g., missing an arbitration trap or unilateral account termination) are critical failures. The model prioritizes user safety by ensuring no high-risk test clause escapes detection.
+1. **High-Risk Class Recall on Test Set:** The fine-tuned transformer attained **1.00 recall on High-Risk clauses** (all 6 High-labeled clauses in the 13-example test set were correctly classified). Because the dataset and test set are small, this result does not establish guaranteed detection of all high-risk clauses in real-world legal agreements, but it demonstrates strong sensitivity on the evaluation split.
 2. **Exceptional Precision on Low and Medium Classes:** The model achieved **1.00 precision on both Low and Medium classes**, meaning whenever it predicts Low or Medium risk, it makes zero false positive errors on those categories.
 3. **Precision Advantage Over Baseline:** The fine-tuned transformer delivered a **+19.6% absolute gain in Macro Precision** (0.8485 vs 0.6528) over the classical TF-IDF baseline, demonstrating superior semantic discrimination.
 

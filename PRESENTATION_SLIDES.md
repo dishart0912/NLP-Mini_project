@@ -1,4 +1,5 @@
-# Presentation Slides: Automated Terms & Conditions Summarizer and Clause Risk Analyzer
+# Presentation Slides: NLP-Based Terms & Conditions Clause Risk Analyzer Using BERT-Tiny
+*(Registered Mini-Project Topic: Automated Terms & Conditions Summarizer and Clause Risk Analyzer)*
 
 **BE Computer Engineering — Semester VII (Academic Year 2026)**  
 **Subject:** Natural Language Processing Lab  
@@ -12,9 +13,10 @@
 
 ## Slide 1: Title & Overview
 
-### Automated Terms & Conditions Summarizer and Clause Risk Analyzer
+### NLP-Based Terms & Conditions Clause Risk Analyzer Using BERT-Tiny
+*(Registered Topic: Automated Terms & Conditions Summarizer and Clause Risk Analyzer)*  
 **Domain:** Legal Tech & Consumer Protection AI  
-**Goal:** Empower everyday users by automatically parsing verbose contractual agreements ("legalese"), extracting salient rights and obligations, and detecting high-risk legal clauses (unilateral termination, comprehensive liability disclaimers, mandatory arbitration).
+**Goal:** Empower everyday users by automatically parsing verbose contractual agreements ("legalese"), extracting salient rights and obligations, and detecting high-risk legal clauses (unilateral termination, comprehensive liability disclaimers, mandatory arbitration). Full document summarization is identified as future work.
 
 ---
 
@@ -104,7 +106,7 @@ All 5 instructor-mandated preprocessing tasks are explicitly operational in our 
 | **Macro Recall** | 0.5833 | 0.5278 |
 | **Macro F1-Score** | 0.6000 | 0.5353 |
 
-- **High-Risk Class Performance:** High recall on High-Risk clauses ($1.00$) ensures no hazardous clause goes unflagged.
+- **High-Risk Class Sensitivity:** Model achieved $1.00$ recall on High-Risk clauses (6/6 in 13-clause test set). While this demonstrates strong sensitivity, the compact test set size does not imply an absolute guarantee across all real-world contracts.
 - **Precision:** Perfect precision ($1.00$) on Low and Medium risk classes.
 
 ---

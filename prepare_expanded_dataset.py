@@ -1,9 +1,15 @@
 """
 Dataset Preparation Script: Curates an expanded legal clause dataset (tc_clauses_expanded.csv)
-combining the original 17 clauses with extracted clauses from amazon.txt and alibaba.txt,
-plus verified real-world Terms of Service clauses from standard consumer platforms.
+combining the original 17 seed clauses with a manually compiled, student-annotated list of
+65 additional real-world contractual clauses inspired by Amazon, Alibaba, Google, Apple, and other tech services.
 
-Original file tc_clauses.csv is kept completely untouched.
+DATA PROVENANCE & ANNOTATION NOTE:
+The raw files 'amazon.txt' and 'alibaba.txt' are reference text files included in the repository.
+They are NOT dynamically parsed or extracted at runtime by this script.
+All additional clauses and risk labels in this script were manually compiled, formatted,
+and labeled by the student project team. They do NOT carry professional or statutory legal validation.
+
+The original seed file 'tc_clauses.csv' remains completely untouched.
 """
 
 import pandas as pd

@@ -105,6 +105,7 @@ Select the following checkboxes:
 **Answer:**
 ```text
 Automated Terms & Conditions Summarizer and Clause Risk Analyzer
+(Descriptive Academic Scope: NLP-Based Terms & Conditions Clause Risk Analyzer Using BERT-Tiny)
 ```
 
 ---
