@@ -25,6 +25,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# Temporary Office Lock Files
+~$*
+
 # Virtual Environments
 venv/
 ENV/

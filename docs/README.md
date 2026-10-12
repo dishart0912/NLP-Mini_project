@@ -39,6 +39,9 @@ We have divided the documentation into 6 bite-sized, structured guides so that e
 8. [08_summarization_vs_classification_and_output_guide.md](08_summarization_vs_classification_and_output_guide.md)  
    *Why our model does Clause Risk Classification instead of text generation/summarization, and a complete breakdown of how to read all script outputs.*
 
+9. [TEAM_STUDY_GUIDE.md](TEAM_STUDY_GUIDE.md)  
+   *Master Slide-by-Slide Speaking Script and Viva Preparation Guide for all 4 team members (Neha 1-2, Disha 3-4, Prerana 5-6, Saloni 7-10).*
+
 ---
 
 ## Quick Reference Summary
