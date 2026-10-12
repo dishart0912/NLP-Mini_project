@@ -42,6 +42,9 @@ To avoid confusion and redundancy, the documentation is organized into clear, fo
 6. **[`06_how_to_run_and_viva_qa.md`](06_how_to_run_and_viva_qa.md)**  
    *Environment execution commands, live CLI demonstration walkthrough, and the top 15 general viva questions & answers.*
 
+7. **[`07_experiments_1_to_5_and_hmm_guide.md`](07_experiments_1_to_5_and_hmm_guide.md)**  
+   *Quick revision guide for foundational Experiments 1 to 5 (tools comparison, basic/advanced cleaning, shallow/deep parsing) and the mathematical HMM Viterbi POS tagger from scratch.*
+
 ---
 
 ### 3. Formal Academic Reports
