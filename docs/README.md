@@ -40,7 +40,10 @@ We have divided the documentation into 6 bite-sized, structured guides so that e
    *Why our model does Clause Risk Classification instead of text generation/summarization, and a complete breakdown of how to read all script outputs.*
 
 9. [TEAM_STUDY_GUIDE.md](TEAM_STUDY_GUIDE.md)  
-   *Master Slide-by-Slide Speaking Script and Viva Preparation Guide for all 4 team members (Neha 1-2, Disha 3-4, Prerana 5-6, Saloni 7-10).*
+   *Master Slide-by-Slide Speaking Script for all 4 team members (Neha 1-2, Disha 3-4, Prerana 5-6, Saloni 7-10).*
+
+10. [DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md](DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md) ⭐  
+    *Exhaustive Technical Defense & Cross-Examination Guide: deep technical concepts, line-by-line implementation details, formulas, and tough viva Q&A for Disha, Prerana, Saloni, and Neha.*
 
 ---
 
