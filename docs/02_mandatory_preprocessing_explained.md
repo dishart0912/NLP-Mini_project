@@ -1,24 +1,24 @@
 # 2. Mandatory Preprocessing Explained
 
-The instructor's guidelines explicitly require **5 specific preprocessing steps**. Here is what each step does, why it matters for legal text, and how our code implements it.
+The instructor's guidelines require **5 specific preprocessing steps**. Here is what each step does, why it matters for legal text, and how our code implements it.
 
 All of these are runnable in: [`preprocessing_pipeline.py`](../preprocessing_pipeline.py).
 
 > [!IMPORTANT]
-> **Architectural Distinction: NLTK Preprocessing vs. BERT Input Pipeline**  
-> In this project, the 5 NLTK preprocessing tasks form an independent linguistic demonstration module. The BERT classification model does **NOT** ingest NLTK lemmatized tokens; instead, BERT uses its own native subword WordPiece tokenizer (`BertTokenizer`) on raw clause strings. This preserves word morphology, subtle syntactic nuances, and punctuation that general lemmatizers might strip away.
+> **Two Separate Pipelines — Don't Confuse Them!**  
+> The 5 NLTK preprocessing steps below are a standalone demo module — they show linguistic analysis. The BERT classification model does **NOT** use these cleaned tokens as input. Instead, BERT uses its own built-in tokenizer (`BertTokenizer`) on the raw clause text. This is because BERT's tokenizer is smarter — it preserves punctuation and subtle word forms that a general lemmatizer would remove.
 
 ---
 
 ## 1. Sentence Boundary Identification
 ### What is it?
-Splitting a long, unbroken block of paragraph text into separate individual sentences.
+Splitting a long block of paragraph text into separate individual sentences.
 
 ### Why is it tricky in Legal Text?
-Legal contracts have titles, abbreviations (like *e.g.*, *i.e.*, *LLC.*, *Sec.*), and bullet points. If you just split on periods (`.`), you might split *Amazon.com LLC.* right in the middle!
+Legal contracts have abbreviations (like *e.g.*, *i.e.*, *LLC.*, *Sec.*) and bullet points. If you just split on every period (`.`), you might split *Amazon.com LLC.* right in the middle — which breaks the sentence wrongly!
 
 ### In Our Code:
-We use NLTK's `sent_tokenize`:
+We use NLTK's `sent_tokenize` — think of it as a smart full-stop detector:
 ```python
 from nltk.tokenize import sent_tokenize
 sentences = sent_tokenize(raw_text)
@@ -33,13 +33,13 @@ sentences = sent_tokenize(raw_text)
 
 ## 2. Tokenization
 ### What is it?
-Breaking a sentence into individual units called **tokens** (words, numbers, and punctuation).
+Breaking a sentence into individual pieces called **tokens** (words, numbers, and punctuation marks).
 
 ### Why does it matter?
-Computers cannot process raw sentences directly; they need isolated words or subwords. In legal documents, preserving punctuation and symbols (like `$1,000` or `100%`) is critical because monetary caps determine liability limits!
+Computers cannot process raw sentences directly — they need isolated words. In legal documents, keeping punctuation and symbols (like `$1,000` or `100%`) matters a lot because money values determine how much a company is liable!
 
 ### In Our Code:
-We use both word-level tokenization (`nltk.word_tokenize`) and subword WordPiece tokenization (`BertTokenizer`):
+We use word-level tokenization (`nltk.word_tokenize`) and BERT's subword tokenization (`BertTokenizer`):
 ```python
 from nltk.tokenize import word_tokenize
 tokens = word_tokenize(sentence)
@@ -51,15 +51,16 @@ tokens = word_tokenize(sentence)
 
 ## 3. Part-of-Speech (POS) Tagging
 ### What is it?
-Labeling each token with its grammatical category (e.g., Noun, Verb, Adjective, Modal Auxilary).
+Labeling each word with its grammar role (e.g., Noun, Verb, Adjective, Modal Auxiliary).
+- Think of it like labeling every word in a sentence as a "doing word", "naming word", "describing word", etc.
 
 ### Why does it matter in Contracts?
-In legal contracts, the most dangerous or important words are **Modal Verbs** (POS tag `MD`) such as:
-- **`shall` / `must`** $\rightarrow$ Represents a non-negotiable legal **obligation** on the user.
-- **`may`** $\rightarrow$ Represents an optional **right** or discretionary power claimed by the company.
+In legal contracts, the most dangerous words are **Modal Verbs** (POS tag `MD`) such as:
+- **`shall` / `must`** $\rightarrow$ A non-negotiable legal **obligation** on the user. You HAVE to do this.
+- **`may`** $\rightarrow$ An optional **right** the company is claiming for itself. They CAN do this if they want.
 
 ### In Our Code:
-We use NLTK's Perceptron tagger (and we also implemented a scratch Hidden Markov Model in our HMM PDF):
+We use NLTK's Perceptron tagger (and we also built a from-scratch Hidden Markov Model tagger in our HMM PDF):
 ```python
 from nltk import pos_tag
 tagged_tokens = pos_tag(tokens)
@@ -74,15 +75,16 @@ tagged_tokens = pos_tag(tokens)
 
 ## 4. Lemmatization (POS-Informed)
 ### What is it?
-Reducing different grammatical forms of a word back to its dictionary root (lemma).
+Reducing different forms of a word back to its dictionary root (called the **lemma**).
 - For example: *terminating*, *terminates*, and *terminated* all reduce to the lemma **`terminate`**.
+- Analogy: Lemmatization is like looking up a word in a dictionary to find its base form, instead of just chopping off the ending.
 
 ### Stemming vs. Lemmatization (Crucial Viva Point!):
-- **Stemming** chops off the ends of words using rough rules (e.g., Porter Stemmer turns *indemnification* into `indemnif`, which is not even a real word!).
-- **Lemmatization** uses vocabulary and morphological analysis to return real dictionary words (e.g., turns *indemnification* into `indemnification` and *obligations* into `obligation`).
+- **Stemming** roughly chops off word endings using simple rules. For example, Porter Stemmer turns *indemnification* into `indemnif` — which is NOT even a real word!
+- **Lemmatization** uses a vocabulary and grammar knowledge to return real dictionary words. For example, *obligations* becomes `obligation` — a real word.
 
 ### In Our Code:
-We map the POS tag so the lemmatizer knows whether the word is a noun, verb, or adjective:
+We tell the lemmatizer what grammar role (POS) the word plays, so it makes smarter decisions:
 ```python
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
@@ -93,12 +95,13 @@ lemma = lemmatizer.lemmatize("terminating", pos='v')  # Returns 'terminate'
 
 ## 5. WordNet Semantic Analysis
 ### What is it?
-**WordNet** is a large lexical database of English nouns, verbs, adjectives, and adverbs organized into sets of cognitive synonyms called **synsets**.
+**WordNet** is a giant English dictionary organized by meaning — not just spelling. Words are grouped into **synsets** (sets of words that share the same meaning/concept).
 
 ### Why did the guidelines require WordNet?
-Because simple keyword matching misses the deeper meaning:
-- If a contract says *"vendor disclaims all indemnification and liability"*, WordNet connects *"liability"* to broader concepts (**hypernyms**) like *indebtedness* and *legal obligation*.
-- If a contract says *"we may discontinue or suspend services"*, WordNet connects *"suspend"* to narrower concepts (**hyponyms**) like *abort*, *interrupt*, or *terminate*.
+Simple word matching is not enough to understand legal text:
+- If a contract says *"vendor disclaims all indemnification and liability"*, WordNet connects *"liability"* to broader, related concepts (**hypernyms** — think "parent" categories) like *indebtedness* and *legal obligation*.
+- If a contract says *"we may discontinue or suspend services"*, WordNet connects *"suspend"* to more specific words (**hyponyms** — think "child" categories) like *abort*, *interrupt*, or *terminate*.
+- Analogy: WordNet is like a thesaurus that also knows which words are more general and which are more specific.
 
 ### In Our Code:
 ```python

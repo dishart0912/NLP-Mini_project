@@ -18,19 +18,19 @@ python preprocessing_pipeline.py
 ```bash
 python prepare_expanded_dataset.py
 ```
-*Curates `tc_clauses_expanded.csv` (82 rows) while preserving `tc_clauses.csv`.*
+*Creates `tc_clauses_expanded.csv` (82 rows) while keeping the original `tc_clauses.csv` untouched.*
 
 ### 3. Run Fine-Tuning and Evaluation
 ```bash
 python fine_tune_bert.py
 ```
-*Trains BERT-Tiny for 12 epochs using AdamW, logs loss convergence, evaluates on test data, compares against the TF-IDF baseline, and saves model checkpoints to `model_output/`.*
+*Trains BERT-Tiny for 12 epochs using AdamW, prints loss at each epoch, evaluates on the test set, compares against the TF-IDF baseline, and saves model files to `model_output/`.*
 
 ### 4. Run Instant Clause Inference
 ```bash
 python inference.py
 ```
-*Loads the saved model and classifies unseen contract sentences into Low, Medium, and High risk with confidence scores.*
+*Loads the saved model and classifies new contract sentences into Low, Medium, and High risk with confidence scores.*
 
 ### 5. Generate the Flowchart Diagram
 ```bash
@@ -43,101 +43,118 @@ python generate_flowchart.py
 ## 2. Top 15 Viva Questions & Answers for Team Members
 
 ### Q1: What is the problem statement of your mini-project?
-**Answer:** Digital users routinely accept complex, multi-page Terms and Conditions without reading them due to verbose legal jargon ("legalese"), unknowingly waiving dispute rights and agreeing to unilateral account termination. Our project builds an NLP system that preprocesses legal agreements, extracts obligations, and automatically classifies clauses into Low, Medium, and High risk categories using a fine-tuned Transformer model.
+**Answer:** Most people blindly click "I Agree" on Terms and Conditions because they are too long and full of confusing legal language ("legalese"). Without reading them, users unknowingly give up their right to sue, agree to account deletion without warning, and accept clauses that heavily favor the company. Our project builds an NLP system that reads, cleans, and automatically classifies each legal clause into Low, Medium, or High risk — using a fine-tuned Transformer model — so users can quickly see what they're really agreeing to.
 
 ---
 
 ### Q2: What were Experiments 1 through 5 about?
 **Answer:**
-- **Exp 1:** Comparative study of NLP tools (NLTK, spaCy, Hugging Face, Google Cloud NLP, AWS Comprehend).
-- **Exp 2:** Problem formulation and legal literature review (ToS;DR dataset).
-- **Exp 3:** Basic text preprocessing (HTML removal, contraction expansion, number/currency tokenization, negation preservation).
-- **Exp 4:** Advanced preprocessing (Lemmatization vs Stemming, GDPR PII anonymization, language detection).
-- **Exp 5:** Shallow parsing (NP/VP chunking) and Deep dependency parsing (SVO triples) + CFG trees.
-- *(Plus our HMM implementation for Viterbi POS-tagging).*
+- **Exp 1:** Compared NLP tools — NLTK, spaCy, Hugging Face, Google Cloud NLP, AWS Comprehend.
+- **Exp 2:** Defined our problem and reviewed existing legal NLP work (like the ToS;DR dataset — a public project rating T&C fairness).
+- **Exp 3:** Basic text cleaning — removing HTML, expanding contractions, handling numbers/currencies, keeping negation words like "not".
+- **Exp 4:** Advanced cleaning — Lemmatization vs Stemming, hiding personal data (GDPR PII anonymization), language detection.
+- **Exp 5:** Shallow parsing (finding Noun/Verb phrases), deep parsing (Subject-Verb-Object triples), and building CFG (Context-Free Grammar) parse trees.
+- *(Plus our HMM (Hidden Markov Model) implementation for POS tagging using the Viterbi algorithm — a method to find the most likely sequence of tags.)*
 
 ---
 
 ### Q3: What are the 5 mandatory preprocessing requirements, and how did you implement them?
 **Answer:**
-1. **Sentence Boundary Identification:** Used NLTK `sent_tokenize` to isolate discrete contractual obligations.
-2. **Tokenization:** Used `nltk.word_tokenize` and subword `BertTokenizer`.
-3. **POS Tagging:** Used NLTK Perceptron Tagger and our scratch HMM tagger.
-4. **Lemmatization:** Used POS-informed WordNet Lemmatizer to reduce words to valid dictionary bases (`terminating` $\rightarrow$ `terminate`).
-5. **WordNet Semantic Analysis:** Used NLTK `wordnet` synsets to extract hypernyms, hyponyms, and definitions for legal terms like "liability" and "terminate".
+1. **Sentence Boundary Identification:** Used NLTK `sent_tokenize` — a smart full-stop detector that handles abbreviations like "LLC." correctly.
+2. **Tokenization:** Used `nltk.word_tokenize` for word-level tokens and `BertTokenizer` for BERT's subword tokens.
+3. **POS Tagging:** Used NLTK Perceptron Tagger and our from-scratch HMM tagger.
+4. **Lemmatization:** Used POS-informed WordNet Lemmatizer to reduce words to their real dictionary base (`terminating` $\rightarrow$ `terminate`).
+5. **WordNet Semantic Analysis:** Used NLTK `wordnet` synsets to find hypernyms (broader/parent terms), hyponyms (narrower/child terms), and definitions for legal words like "liability" and "terminate".
 
 ---
 
 ### Q4: Why is WordNet analysis useful in legal NLP?
-**Answer:** WordNet captures semantic ontological relationships (synonyms, hypernyms/broader terms, hyponyms/narrower terms) rather than just exact word strings. For example, it connects "liability" to "indebtedness" and "obligation", enabling the system to understand legal accountability.
+**Answer:** WordNet understands meaning, not just spelling. It connects related words — for example, "liability" is connected to "indebtedness" and "legal obligation". This helps the system understand legal clauses that use different words to describe the same dangerous concept — instead of just matching exact keywords.
 
 ---
 
 ### Q5: What is the difference between Stemming and Lemmatization?
 **Answer:**
-- **Stemming** chops off word suffixes heuristically and often produces non-words (e.g., Porter Stemmer turns *indemnification* into `indemnif`).
-- **Lemmatization** uses morphological analysis and dictionary vocabulary to return valid base words (e.g., *indemnification* remains `indemnification`, and *obligations* becomes `obligation`). For legal text, lemmatization is essential to maintain dictionary validity.
+- **Stemming** roughly chops off word endings using simple rules — and often produces non-real words. For example, the Porter Stemmer turns *indemnification* into `indemnif`, which doesn't exist in any dictionary.
+- **Lemmatization** uses a vocabulary and grammar understanding to return real dictionary words. For example, *obligations* becomes `obligation` and *terminating* becomes `terminate`.
+- Analogy: Stemming is like cutting a plant stem with scissors — you might cut too much. Lemmatization is like pruning it properly — you know exactly where to stop.
+- For legal text, lemmatization is essential because the words must remain meaningful.
 
 ---
 
 ### Q6: Why did you choose Legal Clause Risk Classification instead of Summarization for fine-tuning?
-**Answer:** Fine-tuning an abstractive summarization model (like T5) requires thousands of pairs of legal clauses and gold-standard human-written summaries. Our actual dataset contains authentic clauses with verified risk labels (`Low`, `Medium`, `High`), but no human summary targets. Selecting risk classification is the scientifically sound and defensible choice because it relies on genuine ground-truth data.
+**Answer:** Training a summarization model (like T5 or BART) requires thousands of pairs of `(Legal Clause, Human-Written Summary)`. Our dataset has real legal clauses with verified risk labels (`Low`, `Medium`, `High`), but no human summaries. Making up summaries would be dishonest and unscientific. Clause Risk Classification uses our real data, has clear correct answers, and is the most honest engineering choice.
 
 ---
 
 ### Q7: What model did you fine-tune, and what is its architecture?
-**Answer:** We fine-tuned `prajjwal1/bert-tiny` (`BertForSequenceClassification`), an efficient 2-layer Bidirectional Encoder Representations from Transformers (BERT) model with 128 hidden embedding dimensions, 2 attention heads, and ~4.39 million trainable parameters.
+**Answer:** We fine-tuned `prajjwal1/bert-tiny` — a tiny version of BERT (Bidirectional Encoder Representations from Transformers, made by Google). It is set up as `BertForSequenceClassification` with:
+- 2 Transformer layers
+- 128 hidden embedding dimensions (each word is a 128-number vector)
+- 2 attention heads (the model looks at the sentence from 2 angles at once)
+- ~4.39 million trainable parameters (numbers that get updated during training)
 
 ---
 
 ### Q8: Why use BERT-Tiny instead of a massive 7-Billion parameter LLM?
 **Answer:**
-1. A small domain dataset (82 clauses) would cause massive models to overfit severely (memorizing training text rather than learning general patterns).
-2. BERT-Tiny uses the exact same self-attention transformer mechanics as larger models while being trainable and runnable in seconds on standard CPU hardware without GPU costs.
+1. A tiny dataset (82 clauses) would cause a huge model to **overfit** — meaning it would just memorize the training sentences like a student cramming without understanding, and fail on new examples.
+2. BERT-Tiny runs in seconds on a standard CPU. No GPU needed. Affordable and practical.
+3. BERT-Tiny uses the same core Transformer mechanics (Multi-Head Self-Attention, Layer Normalization, Feed-Forward layers) as big models — just scaled down.
 
 ---
 
 ### Q9: What actually changes during fine-tuning?
-**Answer:** During fine-tuning, the internal neural network weights (the Query, Key, Value attention weight matrices, feed-forward layers, and the linear classification head) are updated through gradient backpropagation using task-specific loss gradients, rather than remaining static.
+**Answer:** The internal numerical weights of the neural network change. These include the Query, Key, and Value weight matrices inside the self-attention layers (which control how the model focuses on different words), the feed-forward layer weights, and the final linear classification head. All of these are updated through **gradient backpropagation** — the model measures its mistake (loss), and then adjusts each weight in the direction that reduces that mistake.
 
 ---
 
 ### Q10: What optimizer and loss function did you use?
 **Answer:**
-- **Optimizer:** `AdamW` (Adam with Decoupled Weight Decay) with a learning rate of $1 \times 10^{-4}$ and weight decay of $0.01$.
-- **Loss Function:** **Weighted Cross-Entropy Loss**, with higher loss penalties for under-represented classes ($w_{\text{Low}} = 1.462, w_{\text{Med}} = 1.188, w_{\text{High}} = 0.679$) to overcome class imbalance.
+- **Optimizer:** `AdamW` — Adam with Decoupled Weight Decay. It's the standard optimizer for transformer models. It adjusts step sizes smartly for each parameter and prevents overfitting via L2 regularization (a penalty on large weights). Learning rate = $1 \times 10^{-4}$, weight decay = $0.01$.
+- **Loss Function:** **Weighted Cross-Entropy Loss** — rarer classes (Low, Medium) get a higher penalty when misclassified, so the model doesn't just always predict the most common class (High).
+  - Weights: $w_{\text{Low}} = 1.462, w_{\text{Med}} = 1.188, w_{\text{High}} = 0.679$.
 
 ---
 
 ### Q11: How do you prove that the model actually learned during training?
 **Answer:**
-1. The training loss decreased monotonically from **1.1194** down to **0.4742** (a 57.6% reduction).
-2. The validation accuracy increased from **41.67%** up to **75.00%**.
-3. The resulting model weights were saved to disk in `model_output/model.safetensors`.
+1. Training loss dropped from **1.1194** to **0.4742** — a 57.6% reduction. The model's mistakes shrank with every epoch.
+2. Validation accuracy rose from **41.67%** to **75.00%**. The model got much better at predicting on data it hadn't trained on.
+3. The best model checkpoint (lowest validation loss at Epoch 12) was saved to `model_output/model.safetensors` — proof that real parameters were updated and stored.
 
 ---
 
 ### Q12: What baseline model did you use, and how did BERT compare?
-**Answer:** We trained a classical **TF-IDF + Logistic Regression** baseline on the exact same training split.
-While both models achieved 61.54% overall accuracy on the held-out test split, **Fine-Tuned BERT achieved a Macro Precision of 0.8485 compared to the baseline's 0.6528 (an absolute gain of +19.6%)**, and achieved **1.00 (100%) precision** on Low and Medium risk classes.
+**Answer:** We trained a classical **TF-IDF + Logistic Regression** baseline on the exact same training data for a fair comparison.
+- Both models achieved **61.54% overall accuracy** on the held-out test set.
+- But **Fine-Tuned BERT got a Macro Precision of 0.8485**, while the baseline only got **0.6528** — an absolute gain of **+19.6%**.
+- BERT also achieved **1.00 (100%) precision** on Low and Medium risk classes — whenever it predicted Low or Medium, it was always correct.
 
 ---
 
 ### Q13: What was the recall on High-Risk clauses, and why is it important?
-**Answer:** The fine-tuned BERT model achieved **1.00 (100%) Recall on High-Risk clauses** (correctly detecting all 6 High-labeled clauses in the 13-example test set). In consumer legal AI, false negatives carry serious consequences. However, because our test set comprises 13 samples, this result indicates strong model sensitivity rather than guaranteed coverage across all real-world agreements.
+**Answer:** The fine-tuned BERT model got **1.00 (100%) Recall on High-Risk clauses** — it correctly found all 6 High-Risk clauses in the 13-example test set, missing none.
+- This matters because in consumer protection AI, missing a dangerous clause (a False Negative) is the worst kind of mistake — it could leave a user unaware of a serious risk.
+- Important caveat: With only 13 test samples, this shows strong sensitivity on our academic benchmark. We'd need more data to guarantee the same in real-world contracts.
 
 ---
 
 ### Q14: What datasets did you use?
 **Answer:**
-- Reference Terms of Service texts from **Amazon** (`amazon.txt`) and **Alibaba** (`alibaba.txt`).
-- The seed dataset `tc_clauses.csv` (17 rows).
-- The expanded dataset `tc_clauses_expanded.csv` (82 clauses across 11 platforms, compiled via student curation without automated web scraping).
+- Reference Terms of Service raw text from **Amazon** (`amazon.txt`) and **Alibaba** (`alibaba.txt`).
+- The seed dataset `tc_clauses.csv` — 17 rows (original, kept untouched).
+- The expanded dataset `tc_clauses_expanded.csv` — 82 clauses from 11 platforms, manually curated by our team (not scraped automatically, so labels are clean and verified).
 
 ---
 
 ### Q15: What are the limitations and future scope of this project?
 **Answer:**
-- **Task Scope vs Title:** While registered under *"Automated Terms & Conditions Summarizer and Clause Risk Analyzer"*, the core model is a 3-class clause risk classifier acting as an extractive risk triage tool. Full abstractive document summarization is identified as future work.
-- **Limitations:** The dataset size is modest (82 clauses) and held-out test split is 13 clauses. Stratified splitting was clause-level rather than by company, so cross-company generalization requires future multi-company evaluation.
-- **Future Scope:** Scaling up the corpus using LexGLUE / ToS;DR on GPU hardware, implementing full abstractive summarization using encoder-decoder or instruction-tuned models, and building an interactive browser extension for consumer agreement auditing.
+- **Task vs Title:** The project is registered as *"Automated Terms & Conditions Summarizer and Clause Risk Analyzer"*, but the actual model is a 3-class risk classifier — not a full summarizer. Full abstractive summarization is listed as future work.
+- **Limitations:**
+  - Small dataset — only 82 clauses and 13 test samples.
+  - Splitting was done at clause level, not by company — so we haven't fully tested cross-company generalization.
+- **Future Scope:**
+  - Scale up using public legal datasets like LexGLUE or ToS;DR on GPU hardware.
+  - Add abstractive summarization using encoder-decoder or instruction-tuned models.
+  - Build an interactive browser extension that flags risky clauses automatically when a user visits a signup page.
