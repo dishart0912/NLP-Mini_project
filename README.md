@@ -25,15 +25,16 @@ This project provides an end-to-end NLP system that parses legal agreements, exe
 ## 🗂️ Repository Structure
 
 ```text
-├── docs/                               # 📚 Complete Step-by-Step Documentation & Learning Guides
+├── docs/                               # 📚 Step-by-Step Documentation & Learning Guides
 │   ├── README.md                       # Documentation Index
+│   ├── DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md # 🌟 Master Technical Viva & Study Guide for All 4 Members
 │   ├── 01_project_overview_and_concepts.md  # Project Motivation & High-Level Architecture
 │   ├── 02_mandatory_preprocessing_explained.md # 5 Mandatory Preprocessing Tasks Explained
 │   ├── 03_dataset_and_task_formulation.md      # Dataset Details & Classification Rationale
 │   ├── 04_llm_finetuning_deep_dive.md          # Transformer Fine-Tuning & Parameter Updates
 │   ├── 05_evaluation_metrics_and_results.md    # Metrics, Baseline Benchmarks & Confusion Matrix
 │   ├── 06_how_to_run_and_viva_qa.md            # Execution Steps & Top 15 Viva Q&A
-│   └── 07_how_to_give_a_demo.md                # 3-Minute Live Physical Demonstration Script
+│   └── AUDIT_REPORT.md                 # Evidence-Based Verification Report
 │
 ├── model_output/                       # 💾 Trained Model Checkpoint & Artifacts
 │   ├── model.safetensors               # Fine-tuned PyTorch neural network weights (~17MB)

@@ -1,58 +1,61 @@
 # Team Learning & Project Documentation Index
 
-Welcome! This folder contains beginner-friendly, structured, and in-depth documentation covering everything implemented in our NLP Mini-Project:
+Welcome! This folder contains clean, structured documentation covering everything implemented in our NLP Mini-Project.
 
 **Project Title:** Automated Terms & Conditions Summarizer and Clause Risk Analyzer  
-**Group Members:**
-- Disha Takawale (2413195)
-- Prerana Patankar (2413196)
-- Saloni Patil (2413210)
-- Neha Maniyar (2413211)
+*(Descriptive Academic Scope: NLP-Based Terms & Conditions Clause Risk Analyzer Using BERT-Tiny)*  
+
+**Group 35 Members:**
+- **Disha Takawale** (2413195)
+- **Prerana Patankar** (2413196)
+- **Saloni Patil** (2413210)
+- **Neha Maniyar** (2413211)
 
 ---
 
-## Documentation Roadmap
+## 📚 Essential Documentation Roadmap
 
-We have divided the documentation into 6 bite-sized, structured guides so that every team member can understand the concepts, code, and viva questions clearly:
+To avoid confusion and redundancy, the documentation is organized into clear, focused guides:
 
-1. [01_project_overview_and_concepts.md](01_project_overview_and_concepts.md)  
-   *What is this project about? Why legal NLP? What was already done in Experiments 1–5, and what was added now?*
-
-2. [02_mandatory_preprocessing_explained.md](02_mandatory_preprocessing_explained.md)  
-   *The 5 mandatory preprocessing tasks explained step-by-step with examples: Sentences, Tokens, POS Tagging, Lemmatization, and WordNet ontology.*
-
-3. [03_dataset_and_task_formulation.md](03_dataset_and_task_formulation.md)  
-   *Where did the data come from? Why did we choose Clause Risk Classification instead of Summarization? How was the dataset curated and split?*
-
-4. [04_llm_finetuning_deep_dive.md](04_llm_finetuning_deep_dive.md)  
-   *How does fine-tuning actually work? What is BERT-Tiny? What are weights, loss functions, learning rates, epochs, and AdamW?*
-
-5. [05_evaluation_metrics_and_results.md](05_evaluation_metrics_and_results.md)  
-   *How did our model perform? What do Accuracy, Precision, Recall, Macro F1, and the Confusion Matrix mean? Why is our baseline comparison important?*
-
-6. [06_how_to_run_and_viva_qa.md](06_how_to_run_and_viva_qa.md)  
-   *How to run the scripts on your computer, plus the top 15 viva questions your professor or external examiner might ask (with exact answers!)*
-
-7. [07_how_to_give_a_demo.md](07_how_to_give_a_demo.md)  
-   *Step-by-step physical demonstration guide with minute-by-minute speaking scripts for all group members.*
-
-8. [08_summarization_vs_classification_and_output_guide.md](08_summarization_vs_classification_and_output_guide.md)  
-   *Why our model does Clause Risk Classification instead of text generation/summarization, and a complete breakdown of how to read all script outputs.*
-
-9. [TEAM_STUDY_GUIDE.md](TEAM_STUDY_GUIDE.md)  
-   *Master Slide-by-Slide Speaking Script for all 4 team members (Neha 1-2, Disha 3-4, Prerana 5-6, Saloni 7-10).*
-
-10. [DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md](DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md) ⭐  
-    *Exhaustive Technical Defense & Cross-Examination Guide: deep technical concepts, line-by-line implementation details, formulas, and tough viva Q&A for Disha, Prerana, Saloni, and Neha.*
+### 1. 🌟 Master Individual Study & Viva Guide (Start Here!)
+- **[`DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md`](DEEP_CONTRIBUTION_AND_VIVA_GUIDE.md)**  
+  *The primary study guide for all 4 members. Contains in-depth technical breakdowns of each member's contributions, slide speaking roles, line-by-line implementation details, mathematical formulas, and tough cross-examination questions for viva defense.*
 
 ---
 
-## Quick Reference Summary
+### 2. Topic-Specific Technical Guides
+1. **[`01_project_overview_and_concepts.md`](01_project_overview_and_concepts.md)**  
+   *Problem statement, legal NLP challenges, system architecture, and summary of foundational Experiments 1–5.*
 
-| Script / Asset | Purpose | Command |
+2. **[`02_mandatory_preprocessing_explained.md`](02_mandatory_preprocessing_explained.md)**  
+   *The 5 mandatory preprocessing tasks explained step-by-step with code examples: Sentence boundary, Tokenization, POS Tagging, Lemmatization, and WordNet ontology.*
+
+3. **[`03_dataset_and_task_formulation.md`](03_dataset_and_task_formulation.md)**  
+   *Dataset provenance (82 clauses across 11 platforms), stratified 70/15/15 splits, and why sequence classification was selected over summarization.*
+
+4. **[`04_llm_finetuning_deep_dive.md`](04_llm_finetuning_deep_dive.md)**  
+   *Transformer fine-tuning mechanics: BERT-Tiny architecture (4.39M parameters), AdamW optimizer, Weighted Cross-Entropy Loss, and best-checkpoint selection.*
+
+5. **[`05_evaluation_metrics_and_results.md`](05_evaluation_metrics_and_results.md)**  
+   *Quantitative evaluation: Classical baseline (TF-IDF + Logistic Regression) vs. BERT-Tiny (+19.6% precision gain), 100% high-risk test recall, and confusion matrix interpretation.*
+
+6. **[`06_how_to_run_and_viva_qa.md`](06_how_to_run_and_viva_qa.md)**  
+   *Environment execution commands, live CLI demonstration walkthrough, and the top 15 general viva questions & answers.*
+
+---
+
+### 3. Formal Academic Reports
+- **[`AUDIT_REPORT.md`](AUDIT_REPORT.md)**: Official evidence-based verification report validating all 9 unit tests, dataset schemas, and model weights.
+
+---
+
+## ⚡ Quick Reference Commands
+
+| Operation | Script | Command |
 |---|---|---|
-| `preprocessing_pipeline.py` | Runs the 5 mandatory preprocessing tasks | `python preprocessing_pipeline.py` |
-| `prepare_expanded_dataset.py` | Builds the 82-clause dataset | `python prepare_expanded_dataset.py` |
-| `fine_tune_bert.py` | Trains BERT, benchmarks baseline, evaluates | `python fine_tune_bert.py` |
-| `inference.py` | Predicts risk on new contract sentences | `python inference.py` |
-| `generate_flowchart.py` | Recreates the pipeline diagram | `python generate_flowchart.py` |
+| **Mandatory Preprocessing (5 steps)** | `preprocessing_pipeline.py` | `python preprocessing_pipeline.py` |
+| **Interactive Live Demo** | `demo.py` | `python demo.py` |
+| **Model Metrics & Loss Table** | `show_results.py` | `python show_results.py` |
+| **Automated Unit Tests** | `test_pipeline.py` | `python -m unittest test_pipeline.py -v` |
+| **Fine-Tuning & Evaluation Engine** | `fine_tune_bert.py` | `python fine_tune_bert.py` |
+| **Single Clause Inference** | `inference.py` | `python inference.py` |
