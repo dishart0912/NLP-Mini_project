@@ -25,15 +25,47 @@ Building upon our documented foundational work in Experiments 1 through 5 and ou
 
 ---
 
-## 1. Project Problem Statement and System Architecture
+## 1. Project Problem Statement, Input/Output Definition, and System Architecture
 
 ### 1.1 Problem Statement
-Standard consumer agreements average 8,000 to 15,000 words written in dense legal terminology ("legalese"). Over 90% of users accept these terms without review. The primary objective of this project is to build an automated NLP pipeline that ingests digital agreements, performs linguistic normalization and semantic analysis, and flags potentially perilous clauses—specifically focusing on **unilateral termination**, **liability disclaimers**, **arbitration mandates**, and **intellectual property transfers**.
+Standard consumer agreements average 8,000 to 15,000 words written in dense legal terminology ("legalese"). Over 90% of users accept these terms without review, unknowingly waiving trial rights and accepting unilateral account termination. The primary objective of this project is to build an automated NLP pipeline that ingests digital agreements, performs linguistic normalization and semantic analysis, and flags potentially perilous clauses—specifically focusing on **unilateral termination**, **liability disclaimers**, **arbitration mandates**, and **intellectual property transfers**.
 
-### 1.2 System Architecture
-The end-to-end system consists of two independent and complementary NLP tracks:
-1. **Classical Linguistic Analysis Track:** Implements the 5 mandatory NLP preprocessing tasks (sentence boundary identification, tokenization, POS tagging, lemmatization, and WordNet semantic analysis) alongside shallow/deep parsing from foundational experiments.
-2. **Deep Learning Classification Track:** Prepares an 82-clause benchmark dataset, feeds raw clause strings through BERT's native subword WordPiece tokenizer (`BertTokenizer`), and fine-tunes `BERT-Tiny` using PyTorch AdamW backpropagation and weighted cross-entropy loss with validation checkpoint selection.
+#### Explicit Input and Output Definition:
+* **System Input:** Raw contractual text (either an entire multi-page Terms of Service document like `amazon.txt`, or an isolated clause string).
+  * *Example Input Clause 1:* `"Amazon reserves the right in its sole discretion to terminate accounts, terminate your rights to use Amazon Services, or cancel orders without notice."`
+  * *Example Input Clause 2:* `"Please review our Privacy Notice, which also governs your use of Amazon Services, to understand our practices."`
+* **System Output:** 
+  1. *Linguistic Features (Preprocessing):* Discrete sentence boundaries, token arrays, Part-of-Speech tags (`MD`, `VB`, `NN`), POS-informed dictionary lemmas, and WordNet hypernym/hyponym ontologies.
+  2. *Risk Classification & Confidence:* 3-Class Risk Assessment (`Low`, `Medium`, or `High`), the winning class label, and softmax probability distributions across all 3 classes.
+  * *Example Output Clause 1:* **`HIGH RISK`** | Confidence: **73.5%** `[Low: 9.7% | Medium: 16.9% | High: 73.5%]` (Warning: Restricts consumer rights or allows unilateral termination)
+  * *Example Output Clause 2:* **`LOW RISK`** | Confidence: **60.6%** `[Low: 60.6% | Medium: 28.3% | High: 11.1%]` (Informational/standard administrative clause)
+
+### 1.2 Libraries and APIs Used
+In accordance with syllabus requirements, the project utilizes and benchmarks foundational open-source tools alongside cloud NLP services evaluated in Experiment 1:
+* **Hugging Face Transformers (`transformers`):** Transformer backbone loader (`BertForSequenceClassification`), pretrained configuration (`BertConfig`), and tokenizer (`BertTokenizer`).
+* **PyTorch (`torch`):** Deep learning tensor engine, gradient backpropagation, dynamic computation graph, parameter optimization via `AdamW`, and cross-entropy loss computation.
+* **NLTK (`nltk`):** Classical linguistic preprocessing (Punkt sentence tokenizer, word tokenizer, Averaged Perceptron POS tagger, WordNet lemmatizer, and WordNet lexical database).
+* **spaCy (`spacy`):** Industrial NLP pipeline evaluated in Exp 1 and Exp 5 for Named Entity Recognition and dependency parsing (Subject-Verb-Object triple extraction).
+* **scikit-learn (`sklearn`):** Dataset stratification (`train_test_split`), TF-IDF baseline vectorizer (`TfidfVectorizer`), baseline logistic regression (`LogisticRegression`), and evaluation metrics (`precision_recall_fscore_support`, `confusion_matrix`, `accuracy_score`).
+* **Cloud NLP APIs Evaluated (Experiment 1):** Google Cloud Natural Language API and AWS Comprehend were analyzed and benchmarked as enterprise cloud alternatives. (Local PyTorch/Hugging Face transformers were selected for implementation to ensure parameter-level weight access, data privacy for legal documents, and zero recurring cloud costs).
+
+### 1.3 Project Description: Objectives, Challenges, and Reasons for Using an LLM
+* **Core Objectives:**
+  1. Implement and verify the 5 mandatory NLP preprocessing operations on legal texts.
+  2. Perform genuine fine-tuning of a pretrained Transformer backbone (`BERT-Tiny`) using backpropagation on a domain-specific legal dataset.
+  3. Benchmark the deep learning model against a classical TF-IDF baseline on an isolated held-out test split.
+  4. Build an interactive inference engine capable of real-time clause risk triage.
+* **Key Challenges:**
+  1. *Severe Legal Jargon & Sentence Length:* Legal clauses often exceed 50–80 words with multi-clause nested dependencies and archaic terminology.
+  2. *Class Imbalance:* High-risk liability clauses outnumber Low-risk administrative clauses in consumer disputes.
+  3. *Small Dataset Size:* Genuine fine-tuning on 82 clauses risks catastrophic memorization (overfitting) if excessively large models are used.
+* **Reasons for Using an LLM / Transformer Backbone:**
+  Classical NLP (TF-IDF bag-of-words or n-grams) only tracks exact keyword counts and fails to understand negation context (e.g., distinguishing *"shall be liable"* from *"shall NOT be liable"*). Pretrained BERT utilizes **Bidirectional Multi-Head Self-Attention**, enabling the model to attend to every word in relation to every other word simultaneously. This allows it to capture complex syntactic context, legal obligations (modal verbs like *shall* vs. *may*), and clause semantics.
+
+### 1.4 LLM Fine-Tuning Process & System Architecture
+The complete system consists of two independent and complementary tracks:
+1. **Classical Linguistic Analysis Track:** Implements the 5 mandatory NLP preprocessing tasks (sentence boundary identification, tokenization, POS tagging, lemmatization, and WordNet semantic analysis).
+2. **Deep Learning Classification Track:** Prepares the 82-clause dataset, tokenizes with `BertTokenizer` (WordPiece), fine-tunes `BERT-Tiny` via PyTorch AdamW and weighted cross-entropy loss, monitors validation loss per epoch, reloads the best checkpoint, and evaluates on the test split.
 
 ```mermaid
 flowchart TD
