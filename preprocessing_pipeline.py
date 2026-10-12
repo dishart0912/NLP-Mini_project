@@ -170,37 +170,107 @@ def preprocess_legal_clause(clause_text):
     }
 
 if __name__ == "__main__":
-    sample_clause = (
-        "Amazon will not be liable for any damages of any kind arising from the use of any "
-        "Amazon Service, and reserves the right to terminate accounts without notice."
-    )
-    print("=" * 68)
-    print("MANDATORY PREPROCESSING VERIFICATION PIPELINE")
-    print("=" * 68)
-    result = preprocess_legal_clause(sample_clause)
-    
-    print("\n1. Sentence Boundary Identification:")
-    for i, s in enumerate(result['sentences'], 1):
-        print(f"   [{i}] {s}")
-        
-    print(f"\n2. Tokenization ({len(result['tokens'])} tokens):")
-    print("  ", result['tokens'][:12], "...")
-    
-    print(f"\n3. POS Tagging (Sample pairs):")
-    print("  ", result['pos_tags'][:8])
-    
-    print(f"\n4. POS-Informed Lemmatization (Sample lemmas):")
-    print("  ", list(zip(result['tokens'][:8], result['lemmas'][:8])))
-    
-    print(f"\n5. WordNet Semantic Analysis (Domain Ontology):")
-    for term, data in result['semantic_insights'].items():
-        print(f"   * Term: '{term}'")
-        print(f"     Synset: {data['synset']} ({data['pos']})")
-        print(f"     Definition: {data['definition']}")
-        print(f"     Hypernyms: {data['hypernyms']}")
-        print(f"     Hyponyms: {data['hyponyms']}")
-        
+    import json
+    import os
+    import pandas as pd
+
+    print("=" * 75)
+    print("  MANDATORY PREPROCESSING PIPELINE (FULL DOCUMENT & CLAUSE ANALYSIS)")
+    print("=" * 75)
+
+    doc_file = "amazon.txt"
+    output_dir = "preprocessing_output"
+    os.makedirs(output_dir, exist_ok=True)
+
+    if os.path.exists(doc_file):
+        with open(doc_file, "r", encoding="utf-8") as f:
+            full_text = f.read()
+
+        print(f"\n[STEP 1] LOADING ENTIRE DOCUMENT: '{doc_file}'")
+        print(f"         Total Characters : {len(full_text):,}")
+        print(f"         Total Words      : {len(full_text.split()):,}")
+
+        # Process the entire document
+        full_result = preprocess_legal_clause(full_text)
+        all_sentences = full_result["sentences"]
+        total_clauses = len(all_sentences)
+        print(f"         Clauses Identified: {total_clauses} discrete contractual obligations")
+
+        # Process each individual clause to create structured document output
+        detailed_clauses = []
+        for idx, sentence in enumerate(all_sentences, 1):
+            clause_res = preprocess_legal_clause(sentence)
+            detailed_clauses.append({
+                "clause_id": idx,
+                "clause_text": sentence,
+                "token_count": len(clause_res["tokens"]),
+                "tokens": clause_res["tokens"],
+                "pos_tags": clause_res["pos_tags"],
+                "lemmas": clause_res["lemmas"],
+                "legal_terms_found": list(clause_res["semantic_insights"].keys()),
+                "semantic_insights": clause_res["semantic_insights"]
+            })
+
+        # Save complete structured output to preprocessing_output/
+        json_output_path = os.path.join(output_dir, "amazon_preprocessed_full.json")
+        with open(json_output_path, "w", encoding="utf-8") as f:
+            json.dump({
+                "document": doc_file,
+                "total_clauses": total_clauses,
+                "clauses": detailed_clauses,
+                "full_document_legal_terms": full_result["semantic_insights"]
+            }, f, indent=2)
+
+        csv_summary_path = os.path.join(output_dir, "amazon_clauses_summary.csv")
+        summary_rows = [
+            {
+                "clause_id": c["clause_id"],
+                "clause_text": c["clause_text"],
+                "token_count": c["token_count"],
+                "legal_keywords": ", ".join(c["legal_terms_found"]) if c["legal_terms_found"] else "None"
+            }
+            for c in detailed_clauses
+        ]
+        pd.DataFrame(summary_rows).to_csv(csv_summary_path, index=False)
+
+        print(f"\n[+] FULL DOCUMENT ANALYSIS SAVED TO '{output_dir}/':")
+        print(f"    - Structured JSON: {json_output_path}")
+        print(f"    - Clause CSV Summary: {csv_summary_path}")
+
+        # Display Clause 1 on the terminal
+        first_clause = detailed_clauses[0]
+        print("\n" + "=" * 75)
+        print(f"  COMMAND-LINE PREVIEW: CLAUSE 1 of {total_clauses}")
+        print("=" * 75)
+        print(f"Text:\n\"{first_clause['clause_text']}\"")
+        print(f"\n1. Sentence Boundary : Isolated as Clause #1 of {total_clauses}")
+        print(f"2. Tokenization      : {first_clause['token_count']} tokens")
+        print("   Sample Tokens     :", first_clause['tokens'][:10], "...")
+        print(f"3. POS Tagging       : Sample pairs ->", first_clause['pos_tags'][:6])
+        print(f"4. Lemmatization     : Sample lemmas ->", list(zip(first_clause['tokens'][:6], first_clause['lemmas'][:6])))
+        print(f"5. WordNet Analysis  :")
+        if first_clause['semantic_insights']:
+            for term, data in first_clause['semantic_insights'].items():
+                print(f"   * Term '{term}': {data['synset']} | Def: {data['definition']}")
+                print(f"     Hypernyms: {data['hypernyms']} | Hyponyms: {data['hyponyms']}")
+        else:
+            print("   (Introductory clause - no high-liability statutory terms detected in this sentence)")
+
+        # Also show WordNet ontology on the document's legal keywords found overall
+        print("\n" + "-" * 75)
+        print(f"DOCUMENT-WIDE WORDNET ONTOLOGY ({len(full_result['semantic_insights'])} Legal Terms Detected):")
+        print("-" * 75)
+        for term, data in list(full_result['semantic_insights'].items())[:3]:
+            print(f"   * Term: '{term}'")
+            print(f"     Synset     : {data['synset']} ({data['pos']})")
+            print(f"     Definition : {data['definition']}")
+            print(f"     Hypernyms  : {data['hypernyms']}")
+            print(f"     Hyponyms   : {data['hyponyms']}")
+
+    else:
+        print(f"[!] '{doc_file}' not found. Falling back to default clause verification.")
+
     print("\n[+] Edge-Case Verification: Testing empty string...")
     empty_res = preprocess_legal_clause("   ")
-    print("    Empty string status:", empty_res["status"], "| Tokens count:", len(empty_res["tokens"]))
-    print("=" * 68)
+    print(f"    Status: {empty_res['status']} | Tokens: {len(empty_res['tokens'])}")
+    print("=" * 75)
