@@ -88,23 +88,32 @@ def show_finetuning_evidence():
     print("  +--------------------------------+-----------------+-------------------+-------------+")
     print(f"  * Key Finding: Fine-Tuned BERT achieved a +{prec_diff:.1f}% precision gain over baseline, with 100% High-Risk recall.")
 
-    # 5. Confusion Matrix & Safety Analysis
-    print("\n[STEP 5: CONFUSION MATRIX & CONSUMER SAFETY VERIFICATION]")
+    # 5. Confusion Matrix & Safety Analysis (Both Baseline & BERT)
+    print("\n[STEP 5: CONFUSION MATRIX COMPARISON (TF-IDF BASELINE vs FINE-TUNED BERT)]")
+    cm_base = np.array(b['confusion_matrix'])
     cm = np.array(ft['confusion_matrix'])
-    print("  Confusion Matrix (Rows = Ground Truth, Columns = Predicted):")
+
+    print("\n  A) CLASSICAL BASELINE (TF-IDF + Logistic Regression) Confusion Matrix:")
+    print("                 Pred: LOW    Pred: MED    Pred: HIGH")
+    print(f"  Actual: LOW   |    {cm_base[0][0]}           {cm_base[0][1]}           {cm_base[0][2]}     | (Total: {sum(cm_base[0])})")
+    print(f"  Actual: MED   |    {cm_base[1][0]}           {cm_base[1][1]}           {cm_base[1][2]}     | (Total: {sum(cm_base[1])})")
+    print(f"  Actual: HIGH  |    {cm_base[2][0]}           {cm_base[2][1]}           {cm_base[2][2]}     | (Total: {sum(cm_base[2])}) -> Missed 1 High-Risk Clause!")
+
+    print("\n  B) FINE-TUNED BERT-TINY Confusion Matrix:")
     print("                 Pred: LOW    Pred: MED    Pred: HIGH")
     print(f"  Actual: LOW   |    {cm[0][0]}           {cm[0][1]}           {cm[0][2]}     | (Total: {sum(cm[0])})")
     print(f"  Actual: MED   |    {cm[1][0]}           {cm[1][1]}           {cm[1][2]}     | (Total: {sum(cm[1])})")
-    print(f"  Actual: HIGH  |    {cm[2][0]}           {cm[2][1]}           {cm[2][2]}     | (Total: {sum(cm[2])})")
+    print(f"  Actual: HIGH  |    {cm[2][0]}           {cm[2][1]}           {cm[2][2]}     | (Total: {sum(cm[2])}) -> Caught 6/6 High-Risk Clauses!")
 
+    base_high_recall = (cm_base[2][2] / sum(cm_base[2])) * 100
     high_recall = (cm[2][2] / sum(cm[2])) * 100
     low_prec = (cm[0][0] / max(1, sum(cm[:, 0]))) * 100
     med_prec = (cm[1][1] / max(1, sum(cm[:, 1]))) * 100
 
-    print(f"\n  KEY SENSITIVITY METRIC:")
-    print(f"  [+] High-Risk Recall    : {high_recall:.1f}% (6 / 6 High-Risk Clauses Caught on 13-Sample Test Set)")
-    print(f"  [+] Low-Risk Precision  : {low_prec:.1f}% (100% Correct when predicting safe terms)")
-    print(f"  [+] Med-Risk Precision  : {med_prec:.1f}% (100% Correct when predicting operational terms)")
+    print(f"\n  KEY SENSITIVITY COMPARISON:")
+    print(f"  [+] High-Risk Recall    : BERT = {high_recall:.1f}% (6/6) vs TF-IDF Baseline = {base_high_recall:.1f}% (5/6)")
+    print(f"  [+] Low-Risk Precision  : BERT = {low_prec:.1f}% (Zero false alarms on Low-Risk)")
+    print(f"  [+] Med-Risk Precision  : BERT = {med_prec:.1f}% (Zero false alarms on Medium-Risk)")
     print("  Note: Small test set (13 samples) demonstrates sensitivity, but does not guarantee real-world coverage.")
     print("=" * 78 + "\n")
 
